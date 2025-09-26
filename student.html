@@ -109,6 +109,78 @@
         .header nav a:hover { color: var(--text-color); background-color: rgba(128, 128, 128, 0.1); }
         .header .actions { display: flex; align-items: center; gap: 0.75rem; }
         
+        /* Language Dropdown Styles */
+        .language-dropdown {
+            position: relative;
+            display: inline-block;
+        }
+        .language-dropdown-toggle {
+            cursor: pointer;
+            gap: 8px;
+            background: transparent;
+            border: none;
+            color: var(--text-color-secondary);
+            font-size: var(--font-size-base);
+            font-weight: 500;
+            padding: var(--space-8);
+            display: flex;
+            align-items: center;
+            border-radius: var(--radius-full);
+            transition: all 0.25s ease;
+        }
+        .language-dropdown-toggle:hover {
+            color: var(--text-color);
+            background-color: rgba(128, 128, 128, 0.1);
+        }
+        .language-dropdown-toggle svg {
+            stroke: var(--text-color-secondary);
+            transition: transform 0.2s ease;
+        }
+        .language-dropdown.open .language-dropdown-toggle svg {
+            transform: rotate(180deg);
+        }
+        .language-dropdown-menu {
+            display: none;
+            position: absolute;
+            top: calc(100% + 8px);
+            right: 0;
+            min-width: 150px;
+            border-radius: var(--radius-lg);
+            padding: var(--space-8);
+            background: var(--card-bg-color);
+            border: 1px solid var(--border-color);
+            z-index: 1001;
+            max-height: 200px;
+            overflow-y: auto;
+            opacity: 0;
+            transform: translateY(-10px);
+            transition: opacity 0.2s ease, transform 0.2s ease;
+            box-shadow: 0 8px 32px 0 var(--shadow-color);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+        }
+        .language-dropdown.open .language-dropdown-menu {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .language-option {
+            display: block;
+            padding: var(--space-8) var(--space-12);
+            color: var(--text-color-secondary);
+            border-radius: var(--radius-base);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-align: left;
+            background: none;
+            border: none;
+            width: 100%;
+        }
+        .language-option:hover {
+            background-color: rgba(128, 128, 128, 0.1);
+            color: var(--text-color);
+        }
+
         .btn { padding: 0.6rem 1.2rem; border-radius: 9999px; border: none; cursor: pointer; font-weight: 600; font-size: var(--font-size-base); font-family: var(--font-family); transition: all 0.25s ease; white-space: nowrap; }
         .btn:hover { transform: translateY(-3px); box-shadow: 0 6px 15px rgba(0,0,0,0.12); filter: brightness(1.05); }
         .btn:active { transform: translateY(-1px); }
@@ -317,13 +389,33 @@
         <header class="header">
             <div class="logo" data-screen="dashboardScreen">SAHARA</div>
             <nav>
-                <a data-screen="dashboardScreen" class="active">Home</a>
-                <a data-screen="journeyScreen">My Journey</a>
-                <a data-screen="resourcesScreen">Resources</a>
+                <a data-screen="dashboardScreen" class="active" data-key="home">Home</a>
+                <a data-screen="journeyScreen" data-key="my_journey">My Journey</a>
+                <a data-screen="resourcesScreen" data-key="resources">Resources</a>
             </nav>
             <div class="actions">
-                <button class="btn btn-outline" id="logoutBtn">Logout</button>
-                <button class="btn btn-sos">SOS</button>
+                <div class="language-dropdown">
+                    <button class="language-dropdown-toggle">
+                        <span id="selectedLanguage">English</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                    </button>
+                    <div class="language-dropdown-menu">
+                        <a class="language-option" data-lang="en">English</a>
+                        <a class="language-option" data-lang="hi">हिंदी</a>
+                        <a class="language-option" data-lang="as">Assamese</a>
+                        <a class="language-option" data-lang="bn">Bengali</a>
+                        <a class="language-option" data-lang="gu">Gujarati</a>
+                        <a class="language-option" data-lang="kn">Kannada</a>
+                        <a class="language-option" data-lang="ml">Malayalam</a>
+                        <a class="language-option" data-lang="mr">Marathi</a>
+                        <a class="language-option" data-lang="or">Odia</a>
+                        <a class="language-option" data-lang="pa">Punjabi</a>
+                        <a class="language-option" data-lang="ta">Tamil</a>
+                        <a class="language-option" data-lang="te">Telugu</a>
+                    </div>
+                </div>
+                <button class="btn btn-outline" id="logoutBtn" data-key="logout">Logout</button>
+                <button class="btn btn-sos" data-key="sos">SOS</button>
             </div>
         </header>
 
@@ -334,8 +426,8 @@
                         <div class="left-column">
                             <div class="welcome-banner card">
                                 <div>
-                                    <h1>Welcome back,</h1>
-                                    <p>Your path to well-being continues.</p>
+                                    <h1 data-key="welcome_back">Welcome back,</h1>
+                                    <p data-key="welcome_subtitle">Your path to well-being continues.</p>
                                 </div>
                                 <div class="welcome-banner-art">
                                      <svg width="200" height="150" viewBox="0 0 200 121" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -347,9 +439,9 @@
 
                             <div class="ai-chat-card card" data-screen="chatScreen">
                                 <div>
-                                    <h2>AI Support Chat</h2>
-                                    <p>Immediate, confidential support, 24/7.</p>
-                                    <button class="btn">Start a Conversation</button>
+                                    <h2 data-key="ai_chat_title">AI Support Chat</h2>
+                                    <p data-key="ai_chat_subtitle">Immediate, confidential support, 24/7.</p>
+                                    <button class="btn" data-key="ai_chat_button">Start a Conversation</button>
                                 </div>
                                 <div class="ai-chat-icon">
                                     <svg width="100" height="100" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -362,25 +454,25 @@
                             </div>
                             <div class="recap-grid">
                                 <div class="recap-card card">
-                                    <h3>Your next session:</h3>
+                                    <h3 data-key="next_session">Your next session:</h3>
                                     <p>Tuesday, Nov 14 at 3:00 PM with Dr. Sharma</p>
                                 </div>
                                  <div class="recap-card card">
-                                    <h3>Last anxiety score:</h3>
+                                    <h3 data-key="last_score">Last anxiety score:</h3>
                                     <p>Your result was "Mild". Try a guided meditation from the resources.</p>
                                 </div>
                             </div>
                         </div>
                         
                         <div class="sidebar">
-                            <h2>Your Toolkit</h2>
+                            <h2 data-key="toolkit_title">Your Toolkit</h2>
                             <div class="resource-card card" data-screen="resourcesScreen">
                                 <div class="icon bg-green">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg>
                                 </div>
                                 <div>
-                                    <h3>Resource Library</h3>
-                                    <p>Explore articles, tools, and exercises.</p>
+                                    <h3 data-key="resource_library_title">Resource Library</h3>
+                                    <p data-key="resource_library_subtitle">Explore articles, tools, and exercises.</p>
                                 </div>
                             </div>
                             <div class="resource-card card" data-screen="assessmentScreen">
@@ -388,8 +480,8 @@
                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path><rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect></svg>
                                 </div>
                                 <div>
-                                    <h3>Assessments</h3>
-                                    <p>Understand your mind better.</p>
+                                    <h3 data-key="assessments_title">Assessments</h3>
+                                    <p data-key="assessments_subtitle">Understand your mind better.</p>
                                 </div>
                             </div>
                              <div class="resource-card card" data-screen="bookingScreen">
@@ -397,15 +489,15 @@
                                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
                                 </div>
                                 <div>
-                                    <h3>Book an Appointment</h3>
-                                    <p>Talk to a professional counselor.</p>
+                                    <h3 data-key="booking_title">Book an Appointment</h3>
+                                    <p data-key="booking_subtitle">Talk to a professional counselor.</p>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </section>
                 
-                <section id="journeyScreen" class="screen">
+                 <section id="journeyScreen" class="screen">
                      <div class="container">
                         <div class="journey-header">
                             <button class="btn back-btn">← Back to Dashboard</button>
@@ -623,16 +715,36 @@
     </div>
 
     <script>
-        // All JavaScript logic is preserved from the original file.
-        // No changes were made here.
         document.addEventListener('DOMContentLoaded', function() {
             const API_BASE_URL = 'https://nahidwin-naim.onrender.com/v1';
             let user = null;
+            let currentLanguage = 'en'; // Language state
+
+            // Translations object for UI text
+            const translations = {
+                en: {
+                    home: "Home", my_journey: "My Journey", resources: "Resources", logout: "Logout", sos: "SOS",
+                    welcome_back: "Welcome back,", welcome_subtitle: "Your path to well-being continues.",
+                    ai_chat_title: "AI Support Chat", ai_chat_subtitle: "Immediate, confidential support, 24/7.", ai_chat_button: "Start a Conversation",
+                    next_session: "Your next session:", last_score: "Last anxiety score:", toolkit_title: "Your Toolkit",
+                    resource_library_title: "Resource Library", resource_library_subtitle: "Explore articles, tools, and exercises.",
+                    assessments_title: "Assessments", assessments_subtitle: "Understand your mind better.",
+                    booking_title: "Book an Appointment", booking_subtitle: "Talk to a professional counselor."
+                },
+                hi: {
+                    home: "होम", my_journey: "मेरी यात्रा", resources: "संसाधन", logout: "लॉग आउट", sos: "एसओएस",
+                    welcome_back: "वापसी पर स्वागत है,", welcome_subtitle: "कल्याण की ओर आपका मार्ग जारी है।",
+                    ai_chat_title: "एआई सहायता चैट", ai_chat_subtitle: "तुरंत, गोपनीय सहायता, 24/7।", ai_chat_button: "बातचीत शुरू करें",
+                    next_session: "आपका अगला सत्र:", last_score: "पिछला चिंता स्कोर:", toolkit_title: "आपकी टूलकिट",
+                    resource_library_title: "संसाधन पुस्तकालय", resource_library_subtitle: "लेख, उपकरण और अभ्यास खोजें।",
+                    assessments_title: "मूल्यांकन", assessments_subtitle: "अपने मन को बेहतर समझें।",
+                    booking_title: "अपॉइंटमेंट बुक करें", booking_subtitle: "एक पेशेवर परामर्शदाता से बात करें।"
+                }
+            };
 
             function checkAuth() {
                 const isLoggedIn = sessionStorage.getItem('isLoggedIn');
                 const userData = sessionStorage.getItem('user');
-
                 if (!isLoggedIn || !userData) {
                     alert('You must be logged in to view this page.');
                     window.location.href = 'index.html';
@@ -646,13 +758,61 @@
                 return true;
             }
 
+            function updateUIText() {
+                const langPack = translations[currentLanguage] || translations.en;
+                document.querySelectorAll('[data-key]').forEach(element => {
+                    const key = element.getAttribute('data-key');
+                    if (key === 'welcome_back') return; // Skip the welcome banner h1 as it's dynamic
+                    if (langPack[key]) {
+                        element.textContent = langPack[key];
+                    }
+                });
+                
+                // Special handling for the dynamic welcome message
+                const welcomeBannerH1 = document.querySelector('.welcome-banner h1');
+                if (welcomeBannerH1 && user && user.fullName) {
+                     const welcomeText = langPack.welcome_back || translations.en.welcome_back;
+                     welcomeBannerH1.textContent = `${welcomeText} ${user.fullName.split(' ')[0]}`;
+                }
+            }
+            
+            function setupLanguageSwitcher() {
+                const languageDropdown = document.querySelector('.language-dropdown');
+                if (!languageDropdown) return;
+                const dropdownToggle = languageDropdown.querySelector('.language-dropdown-toggle');
+                const languageOptions = languageDropdown.querySelectorAll('.language-option');
+                const selectedLanguageSpan = document.getElementById('selectedLanguage');
+
+                dropdownToggle.addEventListener('click', () => {
+                    languageDropdown.classList.toggle('open');
+                });
+
+                document.addEventListener('click', (e) => {
+                    if (!languageDropdown.contains(e.target)) {
+                        languageDropdown.classList.remove('open');
+                    }
+                });
+
+                languageOptions.forEach(option => {
+                    option.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        const lang = option.getAttribute('data-lang');
+                        const langText = option.textContent;
+
+                        if (lang) {
+                            currentLanguage = lang;
+                            updateUIText();
+                        }
+
+                        selectedLanguageSpan.textContent = langText;
+                        languageDropdown.classList.remove('open');
+                    });
+                });
+            }
+
             const appData = {
-                phq9_questions: {
-                    en: [{"id": "PHQ9_Q1", "text": "Little interest or pleasure in doing things", "options": ["Not at all (0)", "Several days (1)", "More than half the days (2)", "Nearly every day (3)"]}, {"id": "PHQ9_Q2", "text": "Feeling down, depressed, or hopeless", "options": ["Not at all (0)", "Several days (1)", "More than half the days (2)", "Nearly every day (3)"]}, {"id": "PHQ9_Q3", "text": "Trouble falling or staying asleep, or sleeping too much", "options": ["Not at all (0)", "Several days (1)", "More than half the days (2)", "Nearly every day (3)"]}, {"id": "PHQ9_Q4", "text": "Feeling tired or having little energy", "options": ["Not at all (0)", "Several days (1)", "More than half the days (2)", "Nearly every day (3)"]}, {"id": "PHQ9_Q5", "text": "Poor appetite or overeating", "options": ["Not at all (0)", "Several days (1)", "More than half the days (2)", "Nearly every day (3)"]}, {"id": "PHQ9_Q6", "text": "Feeling bad about yourself — or that you are a failure", "options": ["Not at all (0)", "Several days (1)", "More than half the days (2)", "Nearly every day (3)"]}, {"id": "PHQ9_Q7", "text": "Trouble concentrating on things", "options": ["Not at all (0)", "Several days (1)", "More than half the days (2)", "Nearly every day (3)"]}, {"id": "PHQ9_Q8", "text": "Moving or speaking slowly or being restless", "options": ["Not at all (0)", "Several days (1)", "More than half the days (2)", "Nearly every day (3)"]}, {"id": "PHQ9_Q9", "text": "Thoughts that you would be better off dead", "options": ["Not at all (0)", "Several days (1)", "More than half the days (2)", "Nearly every day (3)"]}]
-                },
-                gad7_questions: {
-                    en: [{"id": "GAD7_Q1", "text": "Feeling nervous, anxious or on edge", "options": ["Not at all (0)", "Several days (1)", "More than half the days (2)", "Nearly every day (3)"]}, {"id": "GAD7_Q2", "text": "Not being able to stop or control worrying", "options": ["Not at all (0)", "Several days (1)", "More than half the days (2)", "Nearly every day (3)"]}, {"id": "GAD7_Q3", "text": "Worrying too much about different things", "options": ["Not at all (0)", "Several days (1)", "More than half the days (2)", "Nearly every day (3)"]}, {"id": "GAD7_Q4", "text": "Trouble relaxing", "options": ["Not at all (0)", "Several days (1)", "More than half the days (2)", "Nearly every day (3)"]}, {"id": "GAD7_Q5", "text": "Being so restless that it is hard to sit still", "options": ["Not at all (0)", "Several days (1)", "More than half the days (2)", "Nearly every day (3)"]}, {"id": "GAD7_Q6", "text": "Becoming easily annoyed or irritable", "options": ["Not at all (0)", "Several days (1)", "More than half the days (2)", "Nearly every day (3)"]}, {"id": "GAD7_Q7", "text": "Feeling afraid as if something awful might happen", "options": ["Not at all (0)", "Several days (1)", "More than half the days (2)", "Nearly every day (3)"]}]
-                },
+                phq9_questions: { en: [{"id": "PHQ9_Q1", "text": "Little interest or pleasure in doing things", "options": ["Not at all (0)", "Several days (1)", "More than half the days (2)", "Nearly every day (3)"]}, {"id": "PHQ9_Q2", "text": "Feeling down, depressed, or hopeless", "options": ["Not at all (0)", "Several days (1)", "More than half the days (2)", "Nearly every day (3)"]}, {"id": "PHQ9_Q3", "text": "Trouble falling or staying asleep, or sleeping too much", "options": ["Not at all (0)", "Several days (1)", "More than half the days (2)", "Nearly every day (3)"]}, {"id": "PHQ9_Q4", "text": "Feeling tired or having little energy", "options": ["Not at all (0)", "Several days (1)", "More than half the days (2)", "Nearly every day (3)"]}, {"id": "PHQ9_Q5", "text": "Poor appetite or overeating", "options": ["Not at all (0)", "Several days (1)", "More than half the days (2)", "Nearly every day (3)"]}, {"id": "PHQ9_Q6", "text": "Feeling bad about yourself — or that you are a failure", "options": ["Not at all (0)", "Several days (1)", "More than half the days (2)", "Nearly every day (3)"]}, {"id": "PHQ9_Q7", "text": "Trouble concentrating on things", "options": ["Not at all (0)", "Several days (1)", "More than half the days (2)", "Nearly every day (3)"]}, {"id": "PHQ9_Q8", "text": "Moving or speaking slowly or being restless", "options": ["Not at all (0)", "Several days (1)", "More than half the days (2)", "Nearly every day (3)"]}, {"id": "PHQ9_Q9", "text": "Thoughts that you would be better off dead", "options": ["Not at all (0)", "Several days (1)", "More than half the days (2)", "Nearly every day (3)"]}] },
+                gad7_questions: { en: [{"id": "GAD7_Q1", "text": "Feeling nervous, anxious or on edge", "options": ["Not at all (0)", "Several days (1)", "More than half the days (2)", "Nearly every day (3)"]}, {"id": "GAD7_Q2", "text": "Not being able to stop or control worrying", "options": ["Not at all (0)", "Several days (1)", "More than half the days (2)", "Nearly every day (3)"]}, {"id": "GAD7_Q3", "text": "Worrying too much about different things", "options": ["Not at all (0)", "Several days (1)", "More than half the days (2)", "Nearly every day (3)"]}, {"id": "GAD7_Q4", "text": "Trouble relaxing", "options": ["Not at all (0)", "Several days (1)", "More than half the days (2)", "Nearly every day (3)"]}, {"id": "GAD7_Q5", "text": "Being so restless that it is hard to sit still", "options": ["Not at all (0)", "Several days (1)", "More than half the days (2)", "Nearly every day (3)"]}, {"id": "GAD7_Q6", "text": "Becoming easily annoyed or irritable", "options": ["Not at all (0)", "Several days (1)", "More than half the days (2)", "Nearly every day (3)"]}, {"id": "GAD7_Q7", "text": "Feeling afraid as if something awful might happen", "options": ["Not at all (0)", "Several days (1)", "More than half the days (2)", "Nearly every day (3)"]}] },
                 counselors: [ {"id": "C001", "name": "Dr. Sarah Johnson", "specialization": "Anxiety and Depression"}, {"id": "C002", "name": "Dr. Rajesh Kumar", "specialization": "Student Counseling"}],
                 resources: [
                     { category: "CBT Modules", items: [{ title: "Thought Record Exercise", description: "Track and analyze your thoughts", type: "Worksheet" }, { title: "Cognitive Restructuring", description: "Challenge negative thinking patterns", type: "Module" }] },
@@ -661,25 +821,15 @@
                     { category: "Peer Support", items: [{ title: "Student Success Stories", description: "Read how others overcame challenges", type: "Stories" }, { title: "Support Group Directory", description: "Find peer support groups", type: "Directory" }] }
                 ]
             };
-            let currentAssessment = null;
-            let currentQuestionIndex = 0;
-            let assessmentAnswers = [];
-            let selectedCounselor = null;
-            let selectedDate = null;
-            let selectedTime = null;
-            let bookingStep = 0;
-            let currentMonth = new Date().getMonth();
-            let currentYear = new Date().getFullYear();
+            let currentAssessment = null; let currentQuestionIndex = 0; let assessmentAnswers = []; let selectedCounselor = null; let selectedDate = null; let selectedTime = null; let bookingStep = 0; let currentMonth = new Date().getMonth(); let currentYear = new Date().getFullYear();
             
             function showScreen(screenId) {
                 document.querySelectorAll('.screen').forEach(screen => screen.classList.remove('active'));
                 const targetScreen = document.getElementById(screenId);
                 if (targetScreen) targetScreen.classList.add('active');
-                
                 document.querySelectorAll('nav a').forEach(a => a.classList.remove('active'));
                 const activeLink = document.querySelector(`nav a[data-screen="${screenId}"]`);
                 if(activeLink) activeLink.classList.add('active');
-                
                 window.scrollTo(0, 0);
             }
             function handleLogout() {
@@ -688,453 +838,119 @@
                 window.location.href = 'index.html';
             }
             function setupNavigation() {
-                document.querySelectorAll('[data-screen]').forEach(el => {
-                    el.addEventListener('click', (e) => {
-                       e.preventDefault();
-                       showScreen(el.dataset.screen);
-                    });
-                });
-                document.querySelectorAll('.back-btn').forEach(btn => {
-                    btn.addEventListener('click', () => showScreen('dashboardScreen'));
-                });
+                document.querySelectorAll('[data-screen]').forEach(el => el.addEventListener('click', (e) => { e.preventDefault(); showScreen(el.dataset.screen); }));
+                document.querySelectorAll('.back-btn').forEach(btn => btn.addEventListener('click', () => showScreen('dashboardScreen')));
             }
             function setupChat() {
                 const chatInput = document.getElementById('chatInput');
                 const sendBtn = document.getElementById('sendMessage');
                 sendBtn?.addEventListener('click', sendMessage);
-                chatInput?.addEventListener('keypress', e => {
-                    if (e.key === 'Enter' && !e.shiftKey) {
-                        e.preventDefault();
-                        sendMessage();
-                    }
-                });
-                document.querySelectorAll('.quick-response').forEach(btn => {
-                    btn.addEventListener('click', () => {
-                        chatInput.value = btn.dataset.message;
-                        sendMessage();
-                    });
-                });
+                chatInput?.addEventListener('keypress', e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); }});
+                document.querySelectorAll('.quick-response').forEach(btn => btn.addEventListener('click', () => { chatInput.value = btn.dataset.message; sendMessage(); }));
             }
             async function sendMessage() {
-                const input = document.getElementById('chatInput');
-                const userMessage = input.value.trim();
-                if (!userMessage) return;
-                
-                addMessage(userMessage, 'user');
-                input.value = '';
-                
-                const typingIndicator = document.getElementById('typing-indicator');
-                typingIndicator.classList.remove('hidden');
-                
+                const input = document.getElementById('chatInput'); const userMessage = input.value.trim(); if (!userMessage) return; addMessage(userMessage, 'user'); input.value = '';
+                const typingIndicator = document.getElementById('typing-indicator'); typingIndicator.classList.remove('hidden');
                 try {
-                    const response = await fetch(`${API_BASE_URL}/predict`, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({
-                            message: userMessage,
-                            userId: user.studentId
-                        })
-                    });
-                    
-                    if (!response.ok) {
-                        throw new Error(`HTTP Error: ${response.status}`);
-                    }
-                    
+                    const response = await fetch(`${API_BASE_URL}/predict`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ message: userMessage, userId: user.studentId, language: currentLanguage }) });
+                    if (!response.ok) { throw new Error(`HTTP Error: ${response.status}`); }
                     const data = await response.json();
-                    
                     const isCrisis = (data.analysis && data.analysis.crisis_detected === true) || data.is_crisis_response === true;
                     let isRecommendation = false;
-                    if (data.professional_referral && data.professional_referral.text) {
-                    const isRecommendation = data.professional_referral.is_recommendation === true;
-                    setTimeout(() => {
-                        addMessage(data.professional_referral.text, 'bot', false, isRecommendation);
-                    }, 800); 
-                }
-            
+                    if (data.professional_referral && data.professional_referral.text) { isRecommendation = data.professional_referral.is_recommendation === true; setTimeout(() => { addMessage(data.professional_referral.text, 'bot', false, isRecommendation); }, 800); }
                     addMessage(data.response, 'bot', isCrisis, isRecommendation);
-                    
-                } catch (error) {
-                    console.error('Chat Error:', error);
-                    addMessage("I'm sorry, I'm having trouble connecting right now. Please try again in a moment.", 'bot');
-                } finally {
-                    typingIndicator.classList.add('hidden');
-                }
+                } catch (error) { console.error('Chat Error:', error); addMessage("I'm sorry, I'm having trouble connecting right now. Please try again in a moment.", 'bot'); } finally { typingIndicator.classList.add('hidden'); }
             }
-
             function addMessage(text, sender, isCrisis = false, isRecommendation = false) {
-                const messagesContainer = document.getElementById('chatMessages');
-                const msgDiv = document.createElement('div');
-                msgDiv.className = `message ${sender}-message`;
-
-                function formatMessage(str) {
-                    str = str.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-                    return str.replace(/\n/g, '<br>');
-                }
-
-                msgDiv.innerHTML = `
-                    <div class="message-content">
-                        <p>${formatMessage(text)}</p>
-                    </div>
-                    <span class="message-time">${new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</span>
-                `;
-
+                const messagesContainer = document.getElementById('chatMessages'); const msgDiv = document.createElement('div'); msgDiv.className = `message ${sender}-message`;
+                function formatMessage(str) { str = str.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>'); return str.replace(/\n/g, '<br>'); }
+                msgDiv.innerHTML = `<div class="message-content"><p>${formatMessage(text)}</p></div><span class="message-time">${new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</span>`;
                 const contentDiv = msgDiv.querySelector('.message-content');
-
-                if (isCrisis && sender === 'bot') {
-                    contentDiv.classList.add('crisis-message');
-                }
-                if (isRecommendation && sender === 'bot') {
-                    contentDiv.classList.add('recommendation-message');
-                }
-                messagesContainer.insertBefore(msgDiv, document.getElementById('typing-indicator'));
-                messagesContainer.scrollTop = messagesContainer.scrollHeight;
+                if (isCrisis && sender === 'bot') { contentDiv.classList.add('crisis-message'); }
+                if (isRecommendation && sender === 'bot') { contentDiv.classList.add('recommendation-message'); }
+                messagesContainer.insertBefore(msgDiv, document.getElementById('typing-indicator')); messagesContainer.scrollTop = messagesContainer.scrollHeight;
             }
             async function loadChatHistory() {
                 if (!user || !user.studentId) return;
-
                 try {
-                    const response = await fetch(`${API_BASE_URL}/history`, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ 
-                            userId: user.studentId,
-                            limit: 100 
-                        })
-                    });
-                    
+                    const response = await fetch(`${API_BASE_URL}/history`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ userId: user.studentId, limit: 100 }) });
                     if (!response.ok) throw new Error('Failed to fetch history');
-
                     const data = await response.json();
                     if (data.success && data.history) {
                         const messagesContainer = document.getElementById('chatMessages');
                         messagesContainer.innerHTML = '<div id="typing-indicator" class="message bot-message hidden"><div class="message-content"><div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div></div></div>';
-                        data.history.forEach(msg => {
-                            const sender = msg.role === 'assistant' ? 'bot' : 'user';
-                            addMessage(msg.content, sender);
-                        });
+                        data.history.forEach(msg => { const sender = msg.role === 'assistant' ? 'bot' : 'user'; addMessage(msg.content, sender); });
                     }
-                } catch (error) {
-                    console.error("Could not load chat history:", error);
-                    addMessage("I couldn't retrieve our past conversation, but we can start a new one!", 'bot');
-                }
+                } catch (error) { console.error("Could not load chat history:", error); addMessage("I couldn't retrieve our past conversation, but we can start a new one!", 'bot'); }
             }
             function setupAssessment() {
-                document.querySelectorAll('.assessment-option button').forEach(btn => {
-                    btn.addEventListener('click', (e) => {
-                        startAssessment(e.target.closest('.assessment-option').dataset.type);
-                    });
-                });
-                document.getElementById('nextQuestion')?.addEventListener('click', nextQuestion);
-                document.getElementById('prevQuestion')?.addEventListener('click', prevQuestion);
-                document.getElementById('retakeAssessment')?.addEventListener('click', resetAssessment);
+                document.querySelectorAll('.assessment-option button').forEach(btn => btn.addEventListener('click', (e) => startAssessment(e.target.closest('.assessment-option').dataset.type)));
+                document.getElementById('nextQuestion')?.addEventListener('click', nextQuestion); document.getElementById('prevQuestion')?.addEventListener('click', prevQuestion); document.getElementById('retakeAssessment')?.addEventListener('click', resetAssessment);
             }
-            function startAssessment(type) {
-                currentAssessment = type;
-                currentQuestionIndex = 0;
-                assessmentAnswers = [];
-                showAssessmentStep('assessmentQuestions');
-                displayQuestion();
-            }
+            function startAssessment(type) { currentAssessment = type; currentQuestionIndex = 0; assessmentAnswers = []; showAssessmentStep('assessmentQuestions'); displayQuestion(); }
             function displayQuestion() {
-                const questions = currentAssessment === 'phq9' ? appData.phq9_questions.en : appData.gad7_questions.en;
-                const question = questions[currentQuestionIndex];
-                document.getElementById('questionText').textContent = question.text;
-                const optionsContainer = document.getElementById('questionOptions');
-                optionsContainer.innerHTML = '';
-                question.options.forEach((option, index) => {
-                    const optDiv = document.createElement('div');
-                    optDiv.className = 'question-option';
-                    optDiv.textContent = option;
-                    optDiv.onclick = () => selectOption(optDiv, index);
-                    if (assessmentAnswers[currentQuestionIndex] === index) optDiv.classList.add('selected');
-                    optionsContainer.appendChild(optDiv);
-                });
-                updateProgress();
-                updateNavigationButtons();
+                const questions = currentAssessment === 'phq9' ? appData.phq9_questions.en : appData.gad7_questions.en; const question = questions[currentQuestionIndex];
+                document.getElementById('questionText').textContent = question.text; const optionsContainer = document.getElementById('questionOptions'); optionsContainer.innerHTML = '';
+                question.options.forEach((option, index) => { const optDiv = document.createElement('div'); optDiv.className = 'question-option'; optDiv.textContent = option; optDiv.onclick = () => selectOption(optDiv, index); if (assessmentAnswers[currentQuestionIndex] === index) optDiv.classList.add('selected'); optionsContainer.appendChild(optDiv); });
+                updateProgress(); updateNavigationButtons();
             }
-            function selectOption(el, value) {
-                document.querySelectorAll('.question-option').forEach(opt => opt.classList.remove('selected'));
-                el.classList.add('selected');
-                assessmentAnswers[currentQuestionIndex] = value;
-                updateNavigationButtons();
-            }
+            function selectOption(el, value) { document.querySelectorAll('.question-option').forEach(opt => opt.classList.remove('selected')); el.classList.add('selected'); assessmentAnswers[currentQuestionIndex] = value; updateNavigationButtons(); }
             function nextQuestion() {
                  const questions = currentAssessment === 'phq9' ? appData.phq9_questions.en : appData.gad7_questions.en;
-                 if (currentQuestionIndex < questions.length - 1) {
-                     currentQuestionIndex++;
-                     displayQuestion();
-                 } else {
-                     calculateResults();
-                 }
+                 if (currentQuestionIndex < questions.length - 1) { currentQuestionIndex++; displayQuestion(); } else { calculateResults(); }
             }
-            function prevQuestion() {
-                if (currentQuestionIndex > 0) {
-                    currentQuestionIndex--;
-                    displayQuestion();
-                }
-            }
-            function updateProgress() {
-                const questions = currentAssessment === 'phq9' ? appData.phq9_questions.en : appData.gad7_questions.en;
-                const progress = ((currentQuestionIndex + 1) / questions.length) * 100;
-                document.querySelector('.progress-fill').style.width = `${progress}%`;
-            }
-            function updateNavigationButtons() {
-                document.getElementById('prevQuestion').disabled = currentQuestionIndex === 0;
-                document.getElementById('nextQuestion').disabled = assessmentAnswers[currentQuestionIndex] === undefined;
-            }
+            function prevQuestion() { if (currentQuestionIndex > 0) { currentQuestionIndex--; displayQuestion(); } }
+            function updateProgress() { const questions = currentAssessment === 'phq9' ? appData.phq9_questions.en : appData.gad7_questions.en; const progress = ((currentQuestionIndex + 1) / questions.length) * 100; document.querySelector('.progress-fill').style.width = `${progress}%`; }
+            function updateNavigationButtons() { document.getElementById('prevQuestion').disabled = currentQuestionIndex === 0; document.getElementById('nextQuestion').disabled = assessmentAnswers[currentQuestionIndex] === undefined; }
             function calculateResults() {
-                const totalScore = assessmentAnswers.reduce((sum, answer) => sum + (answer || 0), 0);
-                const maxScore = currentAssessment === 'phq9' ? 27 : 21;
-                let riskLevel, riskClass, recommendations;
-
-                if (currentAssessment === 'phq9') { // Depression
-                    if (totalScore <= 4) {
-                        riskLevel = 'Minimal Depression'; riskClass = 'risk-minimal';
-                        recommendations = ['Continue with healthy lifestyle habits', 'Stay connected with friends and family'];
-                    } else if (totalScore <= 9) {
-                        riskLevel = 'Mild Depression'; riskClass = 'risk-mild';
-                        recommendations = ['Practice stress management techniques', 'Monitor your mood regularly', 'Consider CBT exercises from our Resource Library'];
-                    } else if (totalScore <= 14) {
-                        riskLevel = 'Moderate Depression'; riskClass = 'risk-moderate';
-                        recommendations = ['Strongly recommend professional counseling', 'Use our AI chat support for daily guidance', 'Practice mindfulness and relaxation techniques'];
-                    } else {
-                        riskLevel = 'Severe Depression'; riskClass = 'risk-severe';
-                        recommendations = ['Immediate professional help is recommended', 'Contact our crisis helpline if needed', 'Book an urgent appointment with a counselor'];
-                    }
-                } else { // GAD-7 Anxiety
-                    if (totalScore <= 4) {
-                        riskLevel = 'Minimal Anxiety'; riskClass = 'risk-minimal';
-                        recommendations = ['Continue with healthy coping strategies', 'Practice relaxation techniques'];
-                    } else if (totalScore <= 9) {
-                        riskLevel = 'Mild Anxiety'; riskClass = 'risk-mild';
-                        recommendations = ['Learn anxiety management techniques from our resources', 'Practice breathing exercises regularly', 'Consider counseling support'];
-                    } else if (totalScore <= 14) {
-                        riskLevel = 'Moderate Anxiety'; riskClass = 'risk-moderate';
-                        recommendations = ['Professional counseling is recommended', 'Practice CBT techniques for anxiety', 'Use our mindfulness resources'];
-                    } else {
-                        riskLevel = 'Severe Anxiety'; riskClass = 'risk-severe';
-                        recommendations = ['Immediate professional help is needed', 'Book an urgent counseling appointment', 'Contact crisis support if overwhelmed'];
-                    }
-                }
+                const totalScore = assessmentAnswers.reduce((sum, answer) => sum + (answer || 0), 0); const maxScore = currentAssessment === 'phq9' ? 27 : 21; let riskLevel, riskClass, recommendations;
+                if (currentAssessment === 'phq9') { if (totalScore <= 4) { riskLevel = 'Minimal Depression'; riskClass = 'risk-minimal'; recommendations = ['Continue with healthy lifestyle habits', 'Stay connected with friends and family']; } else if (totalScore <= 9) { riskLevel = 'Mild Depression'; riskClass = 'risk-mild'; recommendations = ['Practice stress management techniques', 'Monitor your mood regularly', 'Consider CBT exercises from our Resource Library']; } else if (totalScore <= 14) { riskLevel = 'Moderate Depression'; riskClass = 'risk-moderate'; recommendations = ['Strongly recommend professional counseling', 'Use our AI chat support for daily guidance', 'Practice mindfulness and relaxation techniques']; } else { riskLevel = 'Severe Depression'; riskClass = 'risk-severe'; recommendations = ['Immediate professional help is recommended', 'Contact our crisis helpline if needed', 'Book an urgent appointment with a counselor']; }
+                } else { if (totalScore <= 4) { riskLevel = 'Minimal Anxiety'; riskClass = 'risk-minimal'; recommendations = ['Continue with healthy coping strategies', 'Practice relaxation techniques']; } else if (totalScore <= 9) { riskLevel = 'Mild Anxiety'; riskClass = 'risk-mild'; recommendations = ['Learn anxiety management techniques from our resources', 'Practice breathing exercises regularly', 'Consider counseling support']; } else if (totalScore <= 14) { riskLevel = 'Moderate Anxiety'; riskClass = 'risk-moderate'; recommendations = ['Professional counseling is recommended', 'Practice CBT techniques for anxiety', 'Use our mindfulness resources']; } else { riskLevel = 'Severe Anxiety'; riskClass = 'risk-severe'; recommendations = ['Immediate professional help is needed', 'Book an urgent counseling appointment', 'Contact crisis support if overwhelmed']; } }
                 displayResults(totalScore, maxScore, riskLevel, riskClass, recommendations);
             }
             function displayResults(score, maxScore, riskLevel, riskClass, recommendations) {
-                document.getElementById('resultTitle').textContent = `${currentAssessment.toUpperCase()} Results`;
-                document.getElementById('scoreNumber').textContent = score;
-                document.getElementById('scoreTotal').textContent = ` / ${maxScore}`;
-                const riskEl = document.getElementById('riskLevel');
-                riskEl.textContent = riskLevel;
-                riskEl.className = `risk-level ${riskClass}`;
-                const recommendationsList = document.getElementById('recommendationsList');
-                recommendationsList.innerHTML = '';
-                recommendations.forEach(rec => {
-                    const item = document.createElement('div');
-                    item.className = 'recommendation-item';
-                    item.textContent = rec;
-                    recommendationsList.appendChild(item);
-                });
+                document.getElementById('resultTitle').textContent = `${currentAssessment.toUpperCase()} Results`; document.getElementById('scoreNumber').textContent = score; document.getElementById('scoreTotal').textContent = ` / ${maxScore}`;
+                const riskEl = document.getElementById('riskLevel'); riskEl.textContent = riskLevel; riskEl.className = `risk-level ${riskClass}`;
+                const recommendationsList = document.getElementById('recommendationsList'); recommendationsList.innerHTML = ''; recommendations.forEach(rec => { const item = document.createElement('div'); item.className = 'recommendation-item'; item.textContent = rec; recommendationsList.appendChild(item); });
                 showAssessmentStep('assessmentResults');
             }
-            function showAssessmentStep(stepId) {
-                document.querySelectorAll('.assessment-step').forEach(s => s.classList.remove('active'));
-                document.getElementById(stepId).classList.add('active');
-            }
+            function showAssessmentStep(stepId) { document.querySelectorAll('.assessment-step').forEach(s => s.classList.remove('active')); document.getElementById(stepId).classList.add('active'); }
             function resetAssessment() { showAssessmentStep('assessmentSelection'); }
-            function generateResources() {
-                const container = document.querySelector('#resourcesScreen .resources-categories');
-                if (!container) return;
-                container.innerHTML = appData.resources.map(cat => `
-                    <div class="resource-category"><h3>${cat.category}</h3>
-                        <div class="resource-grid">${cat.items.map(item => `
-                            <div class="resource-item"><h4>${item.title}</h4><p>${item.description}</p><span class="resource-type">${item.type}</span></div>`
-                        ).join('')}</div>
-                    </div>`
-                ).join('');
-            }
-            function generateCounselors() {
-                const container = document.getElementById('counselorList');
-                if (!container) return;
-                container.innerHTML = appData.counselors.map(c => `
-                    <div class="counselor-card"><h4>${c.name}</h4><p>${c.specialization}</p><button class="btn btn-primary select-counselor" data-id="${c.id}">Select</button></div>`
-                ).join('');
-                document.querySelectorAll('.select-counselor').forEach(btn => {
-                    btn.addEventListener('click', () => {
-                        selectedCounselor = appData.counselors.find(c => c.id === btn.dataset.id);
-                        nextBookingStep();
-                    });
-                });
-            }
-            function setupBooking() {
-                document.getElementById('nextStep')?.addEventListener('click', nextBookingStep);
-                document.getElementById('prevStep')?.addEventListener('click', prevBookingStep);
-                document.getElementById('confirmBooking')?.addEventListener('click', confirmBooking);
-                document.getElementById('prevMonth')?.addEventListener('click', () => navigateMonth(-1));
-                document.getElementById('nextMonth')?.addEventListener('click', () => navigateMonth(1));
-                document.querySelectorAll('input[name="appointmentType"]').forEach(radio => {
-                    radio.addEventListener('change', updateBookingNavigation);
-                });
-            }
+            function generateResources() { const container = document.querySelector('#resourcesScreen .resources-categories'); if (!container) return; container.innerHTML = appData.resources.map(cat => `<div class="resource-category"><h3>${cat.category}</h3><div class="resource-grid">${cat.items.map(item => `<div class="resource-item"><h4>${item.title}</h4><p>${item.description}</p><span class="resource-type">${item.type}</span></div>`).join('')}</div></div>`).join(''); }
+            function generateCounselors() { const container = document.getElementById('counselorList'); if (!container) return; container.innerHTML = appData.counselors.map(c => `<div class="counselor-card"><h4>${c.name}</h4><p>${c.specialization}</p><button class="btn btn-primary select-counselor" data-id="${c.id}">Select</button></div>`).join(''); document.querySelectorAll('.select-counselor').forEach(btn => btn.addEventListener('click', () => { selectedCounselor = appData.counselors.find(c => c.id === btn.dataset.id); nextBookingStep(); })); }
+            function setupBooking() { document.getElementById('nextStep')?.addEventListener('click', nextBookingStep); document.getElementById('prevStep')?.addEventListener('click', prevBookingStep); document.getElementById('confirmBooking')?.addEventListener('click', confirmBooking); document.getElementById('prevMonth')?.addEventListener('click', () => navigateMonth(-1)); document.getElementById('nextMonth')?.addEventListener('click', () => navigateMonth(1)); document.querySelectorAll('input[name="appointmentType"]').forEach(radio => radio.addEventListener('change', updateBookingNavigation)); }
             function generateCalendar() {
-                const calendarGrid = document.getElementById('calendarGrid');
-                if (!calendarGrid) return;
-                const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-                document.getElementById('currentMonth').textContent = `${monthNames[currentMonth]} ${currentYear}`;
-                calendarGrid.innerHTML = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map(d => `<div style="font-weight: 600; font-size: 0.8rem; color: var(--text-color-secondary);">${d}</div>`).join('');
-                const firstDay = new Date(currentYear, currentMonth, 1).getDay();
-                const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+                const calendarGrid = document.getElementById('calendarGrid'); if (!calendarGrid) return; const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+                document.getElementById('currentMonth').textContent = `${monthNames[currentMonth]} ${currentYear}`; calendarGrid.innerHTML = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map(d => `<div style="font-weight: 600; font-size: 0.8rem; color: var(--text-color-secondary);">${d}</div>`).join('');
+                const firstDay = new Date(currentYear, currentMonth, 1).getDay(); const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
                 for (let i = 0; i < firstDay; i++) calendarGrid.insertAdjacentHTML('beforeend', '<div></div>');
-                for (let day = 1; day <= daysInMonth; day++) {
-                    const dayDiv = document.createElement('div');
-                    dayDiv.className = 'calendar-day available';
-                    dayDiv.textContent = day;
-                    dayDiv.onclick = () => selectDate(day, dayDiv);
-                    calendarGrid.appendChild(dayDiv);
-                }
+                for (let day = 1; day <= daysInMonth; day++) { const dayDiv = document.createElement('div'); dayDiv.className = 'calendar-day available'; dayDiv.textContent = day; dayDiv.onclick = () => selectDate(day, dayDiv); calendarGrid.appendChild(dayDiv); }
             }
-            function navigateMonth(dir) {
-                currentMonth += dir;
-                if (currentMonth < 0) { currentMonth = 11; currentYear--; }
-                if (currentMonth > 11) { currentMonth = 0; currentYear++; }
-                generateCalendar();
-            }
-            function selectDate(day, el) {
-                document.querySelectorAll('.calendar-day.selected').forEach(d => d.classList.remove('selected'));
-                el.classList.add('selected');
-                selectedDate = new Date(currentYear, currentMonth, day);
-                generateTimeSlots();
-                updateBookingNavigation();
-            }
-            function generateTimeSlots() {
-                const container = document.getElementById('timeSlots');
-                container.innerHTML = ['09:00', '10:00', '11:00', '14:00', '15:00'].map(time => `<div class="time-slot">${time}</div>`).join('');
-                document.querySelectorAll('.time-slot').forEach(slot => {
-                    slot.addEventListener('click', () => {
-                        document.querySelectorAll('.time-slot.selected').forEach(s => s.classList.remove('selected'));
-                        slot.classList.add('selected');
-                        selectedTime = slot.textContent;
-                        updateBookingNavigation();
-                    });
-                });
-            }
-            function nextBookingStep() {
-                const steps = ['selectCounselor', 'selectDateTime', 'selectType', 'confirmation'];
-                if(bookingStep >= steps.length - 1) return;
-                document.getElementById(steps[bookingStep]).classList.remove('active');
-                bookingStep++;
-                document.getElementById(steps[bookingStep]).classList.add('active');
-                if (bookingStep === 3) updateConfirmationSummary();
-                updateBookingNavigation();
-            }
-            function prevBookingStep() {
-                const steps = ['selectCounselor', 'selectDateTime', 'selectType', 'confirmation'];
-                 if(bookingStep <= 0) return;
-                document.getElementById(steps[bookingStep]).classList.remove('active');
-                bookingStep--;
-                document.getElementById(steps[bookingStep]).classList.add('active');
-                updateBookingNavigation();
-            }
-            function updateBookingNavigation() {
-                document.getElementById('prevStep').disabled = bookingStep === 0;
-                let canProceed = false;
-                if (bookingStep === 0) canProceed = !!selectedCounselor;
-                else if (bookingStep === 1) canProceed = !!selectedDate && !!selectedTime;
-                else if (bookingStep === 2) canProceed = !!document.querySelector('input[name="appointmentType"]:checked');
-                document.getElementById('nextStep').style.display = bookingStep === 3 ? 'none' : 'inline-flex';
-                document.getElementById('nextStep').disabled = !canProceed;
-            }
-            function updateConfirmationSummary() {
-                document.getElementById('confirmedCounselor').textContent = selectedCounselor.name;
-                document.getElementById('confirmedDate').textContent = selectedDate.toLocaleDateString();
-                document.getElementById('confirmedTime').textContent = selectedTime;
-                
-                const selectedTypeLabel = document.querySelector('input[name="appointmentType"]:checked').closest('.appointment-type');
-                const typeText = selectedTypeLabel.querySelector('h4').textContent;
-                document.getElementById('confirmedType').textContent = typeText;
-            }
-            function confirmBooking() {
-                document.getElementById('successModal').classList.remove('hidden');
-            }
-            function setupModal() {
-                document.getElementById('closeModal')?.addEventListener('click', () => {
-                    document.getElementById('successModal').classList.add('hidden');
-                    resetBooking();
-                    showScreen('dashboardScreen');
-                });
-            }
-            function resetBooking() {
-                bookingStep = 0; selectedCounselor = null; selectedDate = null; selectedTime = null;
-                document.querySelectorAll('.booking-step').forEach((s, index) => {
-                    if (index === 0) s.classList.add('active');
-                    else s.classList.remove('active');
-                });
-                const radios = document.querySelectorAll('input[name="appointmentType"]');
-                if (radios) radios.forEach(radio => radio.checked = false);
-                updateBookingNavigation();
-            }
+            function navigateMonth(dir) { currentMonth += dir; if (currentMonth < 0) { currentMonth = 11; currentYear--; } if (currentMonth > 11) { currentMonth = 0; currentYear++; } generateCalendar(); }
+            function selectDate(day, el) { document.querySelectorAll('.calendar-day.selected').forEach(d => d.classList.remove('selected')); el.classList.add('selected'); selectedDate = new Date(currentYear, currentMonth, day); generateTimeSlots(); updateBookingNavigation(); }
+            function generateTimeSlots() { const container = document.getElementById('timeSlots'); container.innerHTML = ['09:00', '10:00', '11:00', '14:00', '15:00'].map(time => `<div class="time-slot">${time}</div>`).join(''); document.querySelectorAll('.time-slot').forEach(slot => { slot.addEventListener('click', () => { document.querySelectorAll('.time-slot.selected').forEach(s => s.classList.remove('selected')); slot.classList.add('selected'); selectedTime = slot.textContent; updateBookingNavigation(); }); }); }
+            function nextBookingStep() { const steps = ['selectCounselor', 'selectDateTime', 'selectType', 'confirmation']; if(bookingStep >= steps.length - 1) return; document.getElementById(steps[bookingStep]).classList.remove('active'); bookingStep++; document.getElementById(steps[bookingStep]).classList.add('active'); if (bookingStep === 3) updateConfirmationSummary(); updateBookingNavigation(); }
+            function prevBookingStep() { const steps = ['selectCounselor', 'selectDateTime', 'selectType', 'confirmation']; if(bookingStep <= 0) return; document.getElementById(steps[bookingStep]).classList.remove('active'); bookingStep--; document.getElementById(steps[bookingStep]).classList.add('active'); updateBookingNavigation(); }
+            function updateBookingNavigation() { document.getElementById('prevStep').disabled = bookingStep === 0; let canProceed = false; if (bookingStep === 0) canProceed = !!selectedCounselor; else if (bookingStep === 1) canProceed = !!selectedDate && !!selectedTime; else if (bookingStep === 2) canProceed = !!document.querySelector('input[name="appointmentType"]:checked'); document.getElementById('nextStep').style.display = bookingStep === 3 ? 'none' : 'inline-flex'; document.getElementById('nextStep').disabled = !canProceed; }
+            function updateConfirmationSummary() { document.getElementById('confirmedCounselor').textContent = selectedCounselor.name; document.getElementById('confirmedDate').textContent = selectedDate.toLocaleDateString(); document.getElementById('confirmedTime').textContent = selectedTime; const selectedTypeLabel = document.querySelector('input[name="appointmentType"]:checked').closest('.appointment-type'); const typeText = selectedTypeLabel.querySelector('h4').textContent; document.getElementById('confirmedType').textContent = typeText; }
+            function confirmBooking() { document.getElementById('successModal').classList.remove('hidden'); }
+            function setupModal() { document.getElementById('closeModal')?.addEventListener('click', () => { document.getElementById('successModal').classList.add('hidden'); resetBooking(); showScreen('dashboardScreen'); }); }
+            function resetBooking() { bookingStep = 0; selectedCounselor = null; selectedDate = null; selectedTime = null; document.querySelectorAll('.booking-step').forEach((s, index) => { if (index === 0) s.classList.add('active'); else s.classList.remove('active'); }); const radios = document.querySelectorAll('input[name="appointmentType"]'); if (radios) radios.forEach(radio => radio.checked = false); updateBookingNavigation(); }
             function initializeJourneyCharts(){
-                const generateFortyDayData = () => {
-                    const data = [];
-                    for(let i=0; i<40; i++) data.push(Math.floor(Math.random() * 15) + 3);
-                    return data;
-                }
-                const fortyDayLabels = Array.from({length: 40}, (_, i) => {
-                    const d = new Date();
-                    d.setDate(d.getDate() - (39-i));
-                    return `${d.getMonth()+1}/${d.getDate()}`;
-                });
-                
-                const weeklyLabels = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-                const weeklyAnxiety = Array.from({length: 7}, () => Math.floor(Math.random() * 18));
-                const weeklyDepression = Array.from({length: 7}, () => Math.floor(Math.random() * 22));
-
+                const generateFortyDayData = () => { const data = []; for(let i=0; i<40; i++) data.push(Math.floor(Math.random() * 15) + 3); return data; }
+                const fortyDayLabels = Array.from({length: 40}, (_, i) => { const d = new Date(); d.setDate(d.getDate() - (39-i)); return `${d.getMonth()+1}/${d.getDate()}`; });
+                const weeklyLabels = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']; const weeklyAnxiety = Array.from({length: 7}, () => Math.floor(Math.random() * 18)); const weeklyDepression = Array.from({length: 7}, () => Math.floor(Math.random() * 22));
                 const ctxFortyDay = document.getElementById('fortyDayChart')?.getContext('2d');
-                if(ctxFortyDay) {
-                    new Chart(ctxFortyDay, {
-                        type: 'line',
-                        data: {
-                            labels: fortyDayLabels,
-                            datasets: [{
-                                label: 'Anxiety Score (GAD-7)',
-                                data: generateFortyDayData(),
-                                borderColor: 'rgba(99, 102, 241, 1)',
-                                backgroundColor: 'rgba(99, 102, 241, 0.2)',
-                                fill: true, tension: 0.4
-                            }, {
-                                label: 'Depression Score (PHQ-9)',
-                                data: generateFortyDayData(),
-                                borderColor: 'rgba(236, 72, 153, 1)',
-                                backgroundColor: 'rgba(236, 72, 153, 0.2)',
-                                fill: true, tension: 0.4
-                            }]
-                        },
-                        options: { responsive: true, maintainAspectRatio: false }
-                    });
-                }
-
+                if(ctxFortyDay) { new Chart(ctxFortyDay, { type: 'line', data: { labels: fortyDayLabels, datasets: [{ label: 'Anxiety Score (GAD-7)', data: generateFortyDayData(), borderColor: 'rgba(99, 102, 241, 1)', backgroundColor: 'rgba(99, 102, 241, 0.2)', fill: true, tension: 0.4 }, { label: 'Depression Score (PHQ-9)', data: generateFortyDayData(), borderColor: 'rgba(236, 72, 153, 1)', backgroundColor: 'rgba(236, 72, 153, 0.2)', fill: true, tension: 0.4 }] }, options: { responsive: true, maintainAspectRatio: false } }); }
                 const ctxWeekly = document.getElementById('weeklyRecapChart')?.getContext('2d');
-                if(ctxWeekly){
-                     new Chart(ctxWeekly, {
-                        type: 'bar',
-                        data: {
-                            labels: weeklyLabels,
-                            datasets: [{
-                                label: 'Anxiety',
-                                data: weeklyAnxiety,
-                                backgroundColor: 'rgba(236, 72, 153, 0.7)',
-                            },{
-                                label: 'Depression',
-                                data: weeklyDepression,
-                                backgroundColor: 'rgba(16, 185, 129, 0.7)',
-                            }]
-                        },
-                        options: { responsive: true, maintainAspectRatio: false, scales: { y: { beginAtZero: true } } }
-                    });
-                }
+                if(ctxWeekly){ new Chart(ctxWeekly, { type: 'bar', data: { labels: weeklyLabels, datasets: [{ label: 'Anxiety', data: weeklyAnxiety, backgroundColor: 'rgba(236, 72, 153, 0.7)', },{ label: 'Depression', data: weeklyDepression, backgroundColor: 'rgba(16, 185, 129, 0.7)', }] }, options: { responsive: true, maintainAspectRatio: false, scales: { y: { beginAtZero: true } } } }); }
             }
             
             function initializeApp() {
                 if (!checkAuth()) return;
 
+                setupLanguageSwitcher(); // Add this
+                
                 setupNavigation();
                 setupAssessment();
                 setupChat();
@@ -1145,6 +961,8 @@
                 setupModal();
                 initializeJourneyCharts();
                 loadChatHistory();
+
+                updateUIText(); // And this
 
                 const themeToggle = document.getElementById('themeToggle');
                 const themeIcon = document.getElementById('themeIcon');
@@ -1182,3 +1000,4 @@
     </script>
 </body>
 </html>
+
