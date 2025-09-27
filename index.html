@@ -1,0 +1,899 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SAHARA - Your Mental Wellness Companion</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <script src="https://unpkg.com/lenis@1.3.11/dist/lenis.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,700&display=swap" rel="stylesheet">
+     <link rel="manifest" href="/manifest.json">
+    <style>
+        :root {
+          /* Color Tokens */
+          --color-white: rgba(255, 255, 255, 1);
+          --color-cream-50: rgba(252, 252, 249, 1);
+          --color-slate-500: rgba(98, 108, 113, 1);
+          --color-slate-900: rgba(19, 52, 59, 1);
+          --color-teal-500: rgba(33, 128, 141, 1);
+          --color-teal-600: rgba(29, 116, 128, 1);
+          --color-teal-700: rgba(26, 104, 115, 1);
+          --color-brown-600-rgb: 94, 82, 64;
+          --color-teal-500-rgb: 33, 128, 141;
+        
+          /* Semantic Colors */
+          --color-background: var(--color-cream-50);
+          --color-surface: var(--color-white);
+          --color-text: var(--color-slate-900);
+          --color-text-secondary: var(--color-slate-500);
+          --color-primary: var(--color-teal-500);
+          --color-primary-hover: var(--color-teal-600);
+          --color-secondary: rgba(var(--color-brown-600-rgb), 0.12);
+          --color-border: rgba(var(--color-brown-600-rgb), 0.2);
+          --color-card-border: rgba(var(--color-brown-600-rgb), 0.12);
+          --color-success: var(--color-teal-500);
+          --color-focus-ring: rgba(var(--color-teal-500-rgb), 0.4);
+          --color-charcoal-700: rgba(31, 33, 33, 1);
+          --color-charcoal-800: rgba(38, 40, 40, 1);
+          --color-gray-200: rgba(245, 245, 245, 1);
+          --color-gray-300: rgba(167, 169, 169, 1);
+
+          /* Typography */
+          --font-family-base: "Poppins", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+          --font-size-base: 14px;
+          --font-size-lg: 16px;
+          --font-size-sm: 12px;
+          --font-size-xl: 18px;
+          --font-size-2xl: 20px;
+          --font-size-3xl: 24px;
+        
+          /* Spacing */
+          --space-8: 8px; --space-12: 12px; --space-16: 16px; --space-24: 24px; --space-32: 32px;
+        
+          /* Border Radius */
+          --radius-base: 8px; --radius-md: 10px; --radius-lg: 12px; --radius-full: 9999px;
+        
+          /* Shadows */
+          --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.04), 0 4px 6px -2px rgba(0, 0, 0, 0.02);
+        
+          /* Animation */
+          --duration-normal: 250ms; --ease-standard: cubic-bezier(0.16, 1, 0.3, 1);
+        
+          /* Layout */
+          --container-lg: 1024px; --container-xl: 1280px;
+        }
+        
+        /* Base styles */
+        html { font-family: var(--font-family-base); color: var(--color-text); background-color: var(--color-background); box-sizing: border-box; }
+        body { margin: 0; padding: 0; display: flex; flex-direction: column; min-height: 100vh; background: linear-gradient(to right, #cffafe, #93c5fd, #818cf8); scroll-behavior: smooth; }
+        *, *::before, *::after { box-sizing: inherit; }
+        h1, h2 { margin: 0; font-weight: 600; }
+        h1 { font-size: 3rem; font-weight: 700; }
+        h2 { font-size: var(--font-size-3xl); }
+        p { margin: 0 0 var(--space-16) 0; }
+        a { color: var(--color-primary); text-decoration: none; }
+        
+        /* Buttons */
+        .btn { display: inline-flex; align-items: center; justify-content: center; padding: var(--space-8) var(--space-16); border-radius: var(--radius-full); font-size: var(--font-size-base); font-weight: 500; cursor: pointer; transition: all var(--duration-normal) var(--ease-standard); border: none; text-decoration: none; }
+        .btn:focus-visible { outline: none; box-shadow: 0 0 0 3px var(--color-focus-ring); }
+        .btn--primary { background: var(--color-teal-700); color: var(--color-white); }
+        .btn--primary:hover { background: var(--color-teal-600); }
+        .btn--secondary { background: rgba(255,255,255,0.1); color: var(--color-white); border: 1px solid rgba(255,255,255,0.5); }
+        .btn--secondary:hover { background: rgba(255,255,255,0.2); }
+        .btn--lg { padding: var(--space-12) var(--space-24); font-size: var(--font-size-lg); }
+        .btn--full-width { width: 100%; }
+        
+        /* Form elements */
+        .form-control { display: block; width: 100%; padding: var(--space-8) var(--space-12); color: var(--color-text); background-color: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-base); }
+        .form-label { display: block; margin-bottom: var(--space-8); font-weight: 500; font-size: var(--font-size-sm); }
+        .form-group { margin-bottom: var(--space-16); }
+        
+        /* Layout */
+        .container { width: 100%; margin: 0 auto; padding: 0 var(--space-16); }
+        @media (min-width: 1024px) { .container { max-width: var(--container-lg); } }
+        @media (min-width: 1280px) { .container { max-width: var(--container-xl); } }
+        .mt-16 { margin-top: var(--space-16); }
+        
+        /* Header and Navigation */
+        .header { background-color: transparent; position: absolute; width: 100%; top: 0; left: 0; z-index: 100; }
+        .header.solid { background-color: var(--color-surface); position: sticky; border-bottom: 1px solid var(--color-border); }
+        .header.solid .nav__brand h2, .header.solid .nav__actions .btn, .header.solid .nav__actions a, .header.solid .language-dropdown-toggle { color: var(--color-text); }
+        .header.solid .language-dropdown-toggle svg { stroke: var(--color-text); }
+        .header.solid .nav__actions #loginBtn { border-color: var(--color-border); }
+        .header.solid .nav__actions #registerBtn { background: #10B981; color: var(--color-white); border-color: #10B981; }
+        .nav { display: flex; justify-content: space-between; align-items: center; padding: var(--space-24); max-width: var(--container-xl); margin: 0 auto; }
+        .nav__brand h2 { margin: 0; color: var(--color-white); font-size: 1.875rem; font-style: italic; font-weight: 700; }
+        .nav__actions { display: flex; align-items: center; gap: var(--space-24); }
+        .nav__actions a, .nav__actions button { background: transparent; border: none; color: var(--color-white); font-size: var(--font-size-lg); font-weight: 500; padding: var(--space-8); text-decoration: none; }
+        .nav__actions #registerBtn { background: #10B981; border-radius: var(--radius-md); padding: var(--space-8) var(--space-16); }
+        
+        /* Language Dropdown */
+        .language-dropdown { position: relative; display: inline-block; }
+        .language-dropdown-toggle { cursor: pointer; gap: 8px; background: transparent; border: none; color: var(--color-white); font-size: var(--font-size-lg); font-weight: 500; padding: var(--space-8); display: flex; align-items: center; }
+        .language-dropdown-toggle svg { stroke: var(--color-white); transition: transform var(--duration-normal) ease; }
+        .language-dropdown.open .language-dropdown-toggle svg { transform: rotate(180deg); }
+        .language-dropdown-menu { display: none; position: absolute; top: 100%; right: 0; margin-top: 8px; min-width: 150px; border-radius: var(--radius-md); padding: var(--space-8); background: rgba(10, 10, 10, 0.4); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.1); z-index: 10; max-height: 150px; overflow-y: auto; opacity: 0; transform: translateY(-10px); transition: opacity var(--duration-normal) ease, transform var(--duration-normal) ease; }
+        .language-dropdown.open .language-dropdown-menu { display: block; opacity: 1; transform: translateY(0); }
+        .language-option { display: block; padding: var(--space-8) var(--space-12); color: var(--color-white); border-radius: var(--radius-base); cursor: pointer; }
+        
+        /* Main Layout */
+        .main { flex: 1; }
+        .screen { display: none; padding: 120px var(--space-32) var(--space-32); animation: fadeIn 0.5s ease-in-out; }
+        .screen.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        
+        .auth-container { max-width: 450px; margin: 0 auto; background: rgba(255,255,255,0.8); backdrop-filter: blur(10px); padding: var(--space-32); border-radius: var(--radius-lg); }
+        .student-id-display { background-color: var(--color-secondary); padding: var(--space-12); border-radius: var(--radius-base); font-weight: 700; font-size: var(--font-size-lg); margin: var(--space-16) 0; color: var(--color-primary); }
+        .auth-switch-text { font-size: var(--font-size-sm); color: var(--color-text-secondary); text-align: center; }
+        .auth-switch-text a { color: var(--color-primary); font-weight: 500; text-decoration: underline; }
+        .back-btn { margin-bottom: var(--space-24); }
+        
+        /* Modal Styles */
+        .modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5); display: flex; align-items: center; justify-content: center; z-index: 1000; }
+        .modal.hidden { display: none; }
+        .modal-content { background: var(--color-surface); border-radius: var(--radius-lg); padding: var(--space-32); max-width: 400px; width: 90%; text-align: center; }
+        .modal-content h3 { color: var(--color-success); margin-bottom: var(--space-16); }
+        .hidden { display: none !important; }
+        
+        /* Landing Page Sections */
+        .hero-section { padding: 0; text-align: left; height: 100vh; display: flex; align-items: center; position: relative; background-image: url('https://i.ibb.co/84XpXLXW/hero-pic.png'); background-size: cover; background-position: center; color: white; }
+        .hero-section::before { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.4); z-index: 1; }
+        .hero-section .container { position: relative; z-index: 2; }
+        .hero-section .welcome-title { background: linear-gradient(to bottom, #ffffff, #EAEAEA); -webkit-background-clip: text; background-clip: text; color: transparent; }
+        .hero-section .welcome-subtitle { color: rgba(255,255,255,0.9); max-width: 500px; }
+        #landingView { padding-top: 0; }
+        .section { padding: 80px var(--space-16); }
+        .section--grey { background-color: rgba(240, 244, 248, 0.8); backdrop-filter: blur(10px); }
+        .section-title { text-align: center; margin-bottom: var(--space-32); font-size: var(--font-size-3xl); }
+        .section-subtitle { text-align: center; max-width: 700px; margin: 0 auto var(--space-32); color: var(--color-text-secondary); font-size: var(--font-size-lg); }
+
+        /* Testimonials Section */
+        .testimonials-viewport { position: relative; width: 100%; padding: 20px 0; margin: 0 auto; overflow: hidden; }
+        .testimonials-grid { position: relative; display: flex; align-items: center; gap: var(--space-24); transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1); }
+        .testimonial-card { background-color: var(--color-surface); border-radius: var(--radius-lg); padding: var(--space-24); border: 1px solid var(--color-card-border); display: flex; flex-direction: column; width: calc(100vw - 64px); max-width: 320px; flex-shrink: 0; transform: scale(0.9); opacity: 0.7; transition: all 0.5s ease-in-out; }
+        .testimonial-card.active { border-color: var(--color-primary); box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1), 0 10px 10px -5px rgba(0,0,0,0.04); transform: scale(1.05); opacity: 1; }
+        .testimonial-nav { position: absolute; top: 50%; transform: translateY(-50%); background-color: rgba(255, 255, 255, 0.8); border: 1px solid var(--color-border); border-radius: 50%; width: 44px; height: 44px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 28px; z-index: 10; }
+        .testimonial-nav.prev { left: 10px; }
+        .testimonial-nav.next { right: 10px; }
+
+        /* CTA & Features */
+        .cta-section { text-align: center; background: linear-gradient(135deg, var(--color-primary), var(--color-teal-700)); color: var(--color-white); border-radius: var(--radius-lg); padding: var(--space-32); }
+        .cta-section h2 { color: var(--color-white); }
+        .feature-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: var(--space-24); }
+        .feature-card { background: var(--color-surface); border: 1px solid var(--color-card-border); border-radius: var(--radius-lg); padding: var(--space-24); text-align: left; transition: all var(--duration-normal) var(--ease-standard); }
+        .feature-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); border-color: var(--color-primary); }
+        .feature-icon { height: 48px; width: 48px; margin-bottom: var(--space-16); background-color: var(--color-secondary); border-radius: var(--radius-lg); display: flex; align-items: center; justify-content: center; color: var(--color-primary); }
+        
+        /* Fade-in Animation */
+        .fade-in-element { opacity: 0; transform: translateY(25px); transition: opacity 0.6s ease-out, transform 0.6s ease-out; }
+        .fade-in-element.is-visible { opacity: 1; transform: translateY(0); }
+
+        /* Footer */
+        .footer { background-color: var(--color-charcoal-800); color: var(--color-gray-300); padding: var(--space-24) var(--space-16); }
+        .footer-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: var(--space-24); text-align: left; margin: 0 auto; max-width: var(--container-xl); }
+        .footer-section h4 { color: var(--color-white); margin-bottom: var(--space-16); font-size: var(--font-size-lg); }
+        .footer-section p, .footer-section ul { margin: 0; padding: 0; list-style: none; font-size: var(--font-size-sm); }
+        .footer-section ul li { margin-bottom: var(--space-8); }
+        .footer-section a { color: var(--color-gray-300); }
+        .footer #feedbackText { background-color: var(--color-charcoal-700); color: var(--color-gray-200); border-color: var(--color-slate-500); }
+        .footer-copyright { text-align: center; padding-bottom: var(--space-16); margin-bottom: var(--space-16); border-bottom: 1px solid var(--color-slate-500); font-size: var(--font-size-sm); }
+        
+        /* --- RESPONSIVENESS FIX: MEDIA QUERIES --- */
+        @media (max-width: 768px) {
+            h1 { font-size: 2.2rem; }
+            .nav { flex-direction: column; gap: 1rem; }
+            .nav__actions { flex-wrap: wrap; justify-content: center; gap: 1rem; }
+            .hero-section { text-align: center; }
+            .hero-section .container { display: flex; flex-direction: column; align-items: center; }
+            .section { padding: 40px var(--space-16); }
+            .auth-container { padding: var(--space-24); width: 90%; }
+            .testimonial-nav { display: none; } /* Hiding nav on mobile, could be replaced with touch gestures */
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <nav class="nav">
+            <div class="nav__brand" style="cursor: pointer;" onclick="document.getElementById('landingView').scrollIntoView();">
+                <h2 data-key="sahara_logo">SAHARA</h2>
+            </div>
+            <div class="nav__actions">
+                <a href="#footer" id="contactBtn" class="btn" data-key="contact">Contact</a>
+                
+                <div class="language-dropdown">
+                    <button class="language-dropdown-toggle">
+                        <span id="selectedLanguage">English</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                    </button>
+                    <div class="language-dropdown-menu">
+                        <a class="language-option" data-lang="en">English</a>
+                        <a class="language-option" data-lang="hi">हिंदी</a>
+                        <a class="language-option" data-lang="as">Assamese</a>
+                        <a class="language-option" data-lang="bn">Bengali</a>
+                        <a class="language-option" data-lang="gu">Gujarati</a>
+                        <a class="language-option" data-lang="kn">Kannada</a>
+                        <a class="language-option" data-lang="ml">Malayalam</a>
+                        <a class="language-option" data-lang="mr">Marathi</a>
+                        <a class="language-option" data-lang="or">Odia</a>
+                        <a class="language-option" data-lang="pa">Punjabi</a>
+                        <a class="language-option" data-lang="ta">Tamil</a>
+                        <a class="language-option" data-lang="te">Telugu</a>
+                    </div>
+                </div>
+
+                <button class="btn" id="loginBtn" data-key="login">Login</button>
+                <button class="btn" id="registerBtn" data-key="register">Register</button>
+            </div>
+        </nav>
+    </header>
+
+    <main class="main">
+        <div id="landingView">
+            <section class="hero-section">
+                <div class="container">
+                    <h1 class="welcome-title" data-key="welcome_title">A Safe Space for Your Mind</h1>
+                    <p class="welcome-subtitle" data-key="welcome_subtitle">Understand your mental health, get support, and find resources tailored for you. Your journey to wellness starts here.</p>
+                    <div class="hero-cta" style="margin-top: 2rem;">
+                        <button class="btn btn--primary btn--lg" id="getStartedBtn" data-key="get_started">Get Started Today</button>
+                    </div>
+                </div>
+            </section>
+
+            <section id="features" class="section">
+                <div class="container">
+                    <h2 class="section-title fade-in-element">A Comprehensive Mental Health Ecosystem</h2>
+                    <p class="section-subtitle fade-in-element">We provide a full suite of tools to support students at every step of their mental wellness journey, ensuring no one feels alone.</p>
+                    <div class="feature-grid">
+                        <div class="feature-card fade-in-element">
+                            <div class="feature-icon" style="color: #60a5fa;">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg>
+                            </div>
+                            <h3>Confidential Assessments</h3>
+                            <p>Use clinically-validated screeners like PHQ-9 and GAD-7 to gain anonymous insight into your mental well-being.</p>
+                        </div>
+                        <div class="feature-card fade-in-element">
+                            <div class="feature-icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20.94c1.5 0 2.75 1.06 4 1.06 3 0 6-8 6-12.22A4.91 4.91 0 0 0 17 5c-2.22 0-4 1.44-5 2-1-.56-2.78-2-5-2a4.9 4.9 0 0 0-5 4.78C2 14 5 22 8 22c1.25 0 2.5-1.06 4-1.06z"></path><path d="M12 21.05c-1.5 0-2.75-1.06-4-1.06-3 0-6 8-6 12.22A4.91 4.91 0 0 1 7 17c2.22 0 4-1.44 5-2 1 .56 2.78 2 5 2a4.9 4.9 0 0 1 5-4.78C22 10 19 2 16 2c-1.25 0-2.5 1.06-4 1.06z"></path></svg>
+                            </div>
+                            <h3>24/7 AI Support Chat</h3>
+                            <p>Our empathetic AI-powered assistant is always available to offer coping strategies, a listening ear, and real-time crisis detection.</p>
+                        </div>
+                        <div class="feature-card fade-in-element">
+                            <div class="feature-icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v15H6.5A2.5 2.5 0 0 1 4 14.5V4.5A2.5 2.5 0 0 1 6.5 2z"></path></svg>
+                            </div>
+                            <h3>Curated Resource Library</h3>
+                            <p>Access a rich library of CBT modules, mindfulness exercises, and educational content to build healthy habits.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="section section--grey">
+                <div class="container">
+                    <h2 class="section-title fade-in-element">Trusted by Students Across India</h2>
+                    <div class="testimonials-viewport fade-in-element">
+                        <div class="testimonials-grid">
+                             <div class="testimonial-card">
+                                <p class="testimonial-text">"Using SAHARA felt truly anonymous and safe. The AI chatbot helped me through a tough exam week without any judgment. It's a game-changer for student mental health."</p>
+                                <div class="testimonial-author">Priya S.<span>B.Tech Student, IIT Delhi</span></div>
+                            </div>
+                            <div class="testimonial-card">
+                                <p class="testimonial-text">"I was skeptical at first, but the assessment was surprisingly accurate. The resources recommended were genuinely helpful. I finally feel like I have tools to manage my anxiety."</p>
+                                <div class="testimonial-author">Arjun K.<span>B.Com Student, Jadavpur University</span></div>
+                            </div>
+                            <div class="testimonial-card">
+                                <p class="testimonial-text">"The ability to book a session with a counselor directly from the platform made seeking help so much less intimidating. The entire process was seamless and private."</p>
+                                <div class="testimonial-author">Ananya R.<span>MBBS Student, VIT</span></div>
+                            </div>
+                        </div>
+                        <button id="testimonial-prev" class="testimonial-nav prev">&lt;</button>
+                        <button id="testimonial-next" class="testimonial-nav next">&gt;</button>
+                    </div>
+                </div>
+            </section>
+
+            <section class="section">
+                 <div class="container">
+                    <div class="cta-section fade-in-element">
+                        <h2>Ready to Prioritize Your Mental Wellness?</h2>
+                        <p>Join thousands of students taking the first step towards a healthier mind. Your journey is confidential, supported, and secure.</p>
+                        <button class="btn btn--primary btn--lg" id="finalCtaBtn">Start for Free</button>
+                    </div>
+                 </div>
+            </section>
+        </div>
+
+        <!-- Auth screens -->
+        <section id="loginTypeView" class="screen">
+            <div class="container auth-container">
+                <button class="btn btn--secondary back-btn" data-target="landingView" data-key="back_to_home">← Back to Home</button>
+                <h3 data-key="login_type_title" class="section-title">Select Login Type</h3>
+                <div class="login-options" style="display: flex; flex-direction: column; gap: 1rem;">
+                    <button class="btn btn--primary btn--full-width" data-target="studentLoginView" data-key="login_as_student">Login as Student</button>
+                    <button class="btn btn--primary btn--full-width" data-target="doctorLoginView" data-key="login_as_doctor">Login as Doctor</button>
+                    <button class="btn btn--primary btn--full-width" data-target="adminLoginView" data-key="login_as_admin">Login as Admin</button>
+                </div>
+                <p class="auth-switch-text mt-16">
+                    <span data-key="no_account">Don't have an account?</span> <a href="#" data-target="registrationView" data-key="register_here">Register here.</a>
+                </p>
+            </div>
+        </section>
+
+        <section id="studentLoginView" class="screen">
+             <div class="container auth-container">
+                <button class="btn btn--secondary back-btn" data-target="loginTypeView" data-key="back">← Back</button>
+                <h3 data-key="student_login" class="section-title">Student Login</h3>
+                <form id="studentLoginForm">
+                    <div class="form-group">
+                        <label for="studentId" class="form-label" data-key="student_id">Student ID</label>
+                        <input type="text" id="studentId" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="studentPassword" class="form-label" data-key="password">Password</label>
+                        <input type="password" id="studentPassword" class="form-control" required>
+                    </div>
+                    <button type="submit" class="btn btn--primary btn--full-width" data-key="login">Login</button>
+                </form>
+            </div>
+        </section>
+
+        <section id="doctorLoginView" class="screen">
+            <div class="container auth-container">
+                <button class="btn btn--secondary back-btn" data-target="loginTypeView" data-key="back">← Back</button>
+                <h3 data-key="doctor_login" class="section-title">Doctor Login</h3>
+                <form id="doctorLoginForm">
+                    <div class="form-group">
+                        <label for="medicalLicense" class="form-label" data-key="medical_license">Medical License No.</label>
+                        <input type="text" id="medicalLicense" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="doctorLoginPassword" class="form-label" data-key="password">Password</label>
+                        <input type="password" id="doctorLoginPassword" class="form-control" required>
+                    </div>
+                    <button type="submit" class="btn btn--primary btn--full-width" data-key="login">Login</button>
+                </form>
+            </div>
+        </section>
+
+        <section id="adminLoginView" class="screen">
+            <div class="container auth-container">
+                <button class="btn btn--secondary back-btn" data-target="loginTypeView" data-key="back">← Back</button>
+                <h3 data-key="admin_login" class="section-title">Admin Login</h3>
+                <form id="adminLoginForm">
+                    <div class="form-group">
+                        <label for="employeeId" class="form-label" data-key="employee_id">Employee ID</label>
+                        <input type="text" id="employeeId" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="adminLoginPassword" class="form-label" data-key="password">Password</label>
+                        <input type="password" id="adminLoginPassword" class="form-control" required>
+                    </div>
+                    <button type="submit" class="btn btn--primary btn--full-width" data-key="login">Login</button>
+                </form>
+            </div>
+        </section>
+        
+        <section id="registrationView" class="screen">
+            <div class="container auth-container">
+                <button class="btn btn--secondary back-btn" data-target="landingView" data-key="back_to_home">← Back to Home</button>
+                <h1 data-key="register_title" class="section-title">Create Student Account</h1>
+                <form id="registrationForm">
+                    <div class="form-group">
+                        <label for="studentName" class="form-label" data-key="full_name">Full Name</label>
+                        <input type="text" id="studentName" name="Name" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="studentEmail" class="form-label" data-key="email_address">Email Address</label>
+                        <input type="email" id="studentEmail" name="Email" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="collegeSelect" class="form-label" data-key="select_college">Select College</label>
+                        <select id="collegeSelect" name="College" class="form-control" required></select>
+                    </div>
+                    <div class="form-group">
+                        <label for="streamSelect" class="form-label" data-key="select_stream">Select Stream</label>
+                        <select id="streamSelect" name="Stream" class="form-control" required></select>
+                    </div>
+                    <div class="form-group">
+                        <label for="yearSelect" class="form-label" data-key="select_year">Select Year / Semester</label>
+                        <select id="yearSelect" name="Year" class="form-control" required></select>
+                    </div>
+                    <div class="form-group">
+                        <label for="regPassword" class="form-label" data-key="password">Password</label>
+                        <input type="password" id="regPassword" class="form-control" required minlength="8">
+                    </div>
+                    <button type="submit" class="btn btn--primary btn--full-width" data-key="register">Register</button>
+                </form>
+                <p class="auth-switch-text mt-16">
+                    <span data-key="already_account">Already have an account?</span> <a href="#" data-target="loginTypeView" data-key="login_here">Login here</a>.
+                </p>
+                 <p class="auth-switch-text mt-16">
+                    Not a student? <a href="#" data-target="doctorRegistrationView">Register as a Doctor</a> or <a href="#" data-target="adminRegistrationView">Register as an Admin</a>.
+                </p>
+            </div>
+        </section>
+
+        <section id="doctorRegistrationView" class="screen">
+            <div class="container auth-container">
+                <button class="btn btn--secondary back-btn" data-target="landingView">← Back</button>
+                <h1 class="section-title">Create Doctor Account</h1>
+                <form id="doctorRegistrationForm">
+                    <div class="form-group">
+                        <label for="doctorName" class="form-label">Full Name</label>
+                        <input type="text" id="doctorName" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="doctorEmail" class="form-label">Email Address</label>
+                        <input type="email" id="doctorEmail" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="doctorLicense" class="form-label">Medical License No.</label>
+                        <input type="text" id="doctorLicense" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="doctorPassword" class="form-label">Password</label>
+                        <input type="password" id="doctorPassword" class="form-control" required minlength="8">
+                    </div>
+                    <button type="submit" class="btn btn--primary btn--full-width">Register</button>
+                </form>
+                 <p class="auth-switch-text mt-16">
+                    Are you a student? <a href="#" data-target="registrationView">Register as a Student instead</a>.
+                </p>
+            </div>
+        </section>
+
+        <section id="adminRegistrationView" class="screen">
+             <div class="container auth-container">
+                <button class="btn btn--secondary back-btn" data-target="landingView">← Back</button>
+                <h1 class="section-title">Create Admin Account</h1>
+                <form id="adminRegistrationForm">
+                     <div class="form-group">
+                        <label for="adminName" class="form-label">Full Name</label>
+                        <input type="text" id="adminName" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="adminEmail" class="form-label">Email Address</label>
+                        <input type="email" id="adminEmail" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="adminEmployeeId" class="form-label">Employee ID</label>
+                        <input type="text" id="adminEmployeeId" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="adminPassword" class="form-label">Password</label>
+                        <input type="password" id="adminPassword" class="form-control" required minlength="8">
+                    </div>
+                    <button type="submit" class="btn btn--primary btn--full-width">Register</button>
+                </form>
+                <p class="auth-switch-text mt-16">
+                    Are you a student? <a href="#" data-target="registrationView">Register as a Student instead</a>.
+                </p>
+            </div>
+        </section>
+        
+        <footer class="footer" id="footer">
+            <div class="container">
+                <div class="footer-copyright">
+                     <p>&copy; 2024 SAHARA. A concept for Smart India Hackathon. All Rights Reserved.</p>
+                </div>
+                <div class="footer-container">
+                    <div class="footer-section">
+                        <h4>About SAHARA</h4>
+                        <p>Our mission is to provide accessible and anonymous mental wellness support for students across India. We believe in creating a safe space for everyone to start their journey towards a healthier mind.</p>
+                    </div>
+                    <div class="footer-section">
+                        <h4>Quick Links</h4>
+                        <ul>
+                            <li><a href="#">About Us</a></li>
+                            <li><a href="#">Privacy Policy</a></li>
+                            <li><a href="#">Terms of Service</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-section">
+                        <h4>Feedback</h4>
+                        <form id="feedbackForm">
+                            <textarea id="feedbackText" class="form-control" placeholder="Your feedback..." rows="3"></textarea>
+                            <button type="submit" class="btn btn--primary" style="margin-top: 8px;">Submit</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </main>
+    
+    <div id="registrationSuccessModal" class="modal hidden">
+        <div class="modal-content">
+            <h3 data-key="reg_success_title">Registration Successful!</h3>
+            <p id="regSuccessMsg" data-key="reg_success_msg">Your account has been created. Your unique Student ID is:</p>
+            <p id="newUserId" class="student-id-display"></p>
+            <p style="margin-top: 1rem;" data-key="reg_success_prompt">Please log in with your new ID.</p>
+            <button id="closeRegSuccessBtn" class="btn btn--primary mt-16" data-key="go_to_login">Go to Login</button>
+        </div>
+    </div>
+    
+    <script>
+        // All JavaScript logic is preserved from the original file.
+        // No changes were made here.
+        const API_BASE_URL = 'https://nahidwin-naim.onrender.com/v1';
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const appData = {
+                colleges: [ "Meghnad Saha Institute of Technology", "Indian Institute of Technology Madras", "Indian Institute of Technology Delhi", "Indian Institute of Technology Bombay", "Jadavpur University", "Vellore Institute of Technology", "National Institute of Technology Tiruchirappalli", "Birla Institute of Technology and Science, Pilani", "Amity University", "S.R.M. Institute of Science and Technology" ],
+                streams: [ { name: "Engineering (B.Tech)", duration: 4 }, { name: "Science (B.Sc)", duration: 3 }, { name: "Arts (B.A.)", duration: 3 }, { name: "Commerce (B.Com)", duration: 3 }, { name: "Business Administration (BBA)", duration: 3 }, { name: "Computer Applications (BCA)", duration: 3 }, { name: "Medical (MBBS)", duration: 5 }, { name: "Law (LLB)", duration: 5 } ],
+            };
+            const translations = {
+                en: { sahara_logo: "SAHARA", contact: "Contact", login: "Login", register: "Register", welcome_title: "A Safe Space for Your Mind", welcome_subtitle: "Understand your mental health, get support, and find resources tailored for you. Your journey to wellness starts here.", get_started: "Get Started Today", feature1_title: "Confidential Assessments", feature1_desc: "Use clinically-validated screeners like PHQ-9 and GAD-7 to gain insight into your mental well-being.", feature2_title: "24/7 AI Support", feature2_desc: "Our AI-powered assistant is always available to offer coping strategies and a listening ear.", feature3_title: "Resource Library", feature3_desc: "Access a curated library of CBT modules, mindfulness exercises, and educational content.", back_to_home: "← Back to Home", login_type_title: "Select Login Type", login_as_student: "Login as Student", login_as_doctor: "Login as Doctor", login_as_admin: "Login as Admin", no_account: "Don't have an account?", register_here: "Register here.", back: "← Back", student_login: "Student Login", student_id: "Student ID", password: "Password", doctor_login: "Doctor Login", medical_license: "Medical License No.", admin_login: "Admin Login", employee_id: "Employee ID", register_title: "Create Student Account", full_name: "Full Name", email_address: "Email Address", select_college: "Select College", select_stream: "Select Stream", select_year: "Select Year / Semester", already_account: "Already have an account?", login_here: "Login here.", reg_success_title: "Registration Successful!", reg_success_msg: "Your account has been created. Your unique Student ID is:", reg_success_prompt: "Please log in with your new ID.", go_to_login: "Go to Login" },
+                hi: { sahara_logo: "सहारा", contact: "संपर्क", login: "लॉग इन करें", register: "पंजीकरण करें", welcome_title: "आपके मन के लिए एक सुरक्षित स्थान", welcome_subtitle: "अपने मानसिक स्वास्थ्य को समझें, सहायता प्राप्त करें, और आपके लिए तैयार किए गए संसाधन खोजें। आपकी সুস্থতার यात्रा यहीं से शुरू होती है।", get_started: "आज ही शुरू करें", feature1_title: "गोपनीय मूल्यांकन", feature1_desc: "अपने मानसिक स्वास्थ्य के बारे में जानकारी प्राप्त करने के लिए PHQ-9 और GAD-7 जैसे चिकित्सकीय रूप से मान्य स्क्रीनर्स का उपयोग करें।", feature2_title: "24/7 एआई सहायता", feature2_desc: "हमारा एआई-संचालित सहायक मुकाबला करने की रणनीतियाँ और सुनने के लिए हमेशा उपलब्ध है।", feature3_title: "संसाधन पुस्तकालय", feature3_desc: "सीबीटी मॉड्यूल, माइंडफुलनेस अभ्यास और शैक्षिक सामग्री की एक क्यूरेटेड लाइब्रेरी तक पहुँचें।", back_to_home: "← होम पर वापस जाएं", login_type_title: "लॉगिन प्रकार चुनें", login_as_student: "छात्र के रूप में लॉगिन करें", login_as_doctor: "डॉक्टर के रूप में लॉगिन करें", login_as_admin: "एडमिन के रूप में लॉगिन करें", no_account: "खाता नहीं है?", register_here: "यहां पंजीकरण करें।", back: "← वापस", student_login: "छात्र लॉगिन", student_id: "छात्र आईडी", password: "पासवर्ड", doctor_login: "डॉक्टर लॉगिन", medical_license: "मेडिकल लाइसेंस नं.", admin_login: "एडमिन लॉगिन", employee_id: "कर्मचारी आईडी", register_title: "छात्र खाता बनाएं", full_name: "पूरा नाम", email_address: "ईमेल पता", select_college: "कॉलेज चुनें", select_stream: "स्ट्रीम चुनें", select_year: "वर्ष / सेमेस्टर चुनें", already_account: "पहले से ही एक खाता है?", login_here: "यहां लॉग इन करें।", reg_success_title: "पंजीकरण सफल!", reg_success_msg: "आपका खाता बन गया है। आपकी विशिष्ट छात्र आईडी है:", reg_success_prompt: "कृपया अपनी नई आईडी से लॉग इन करें।", go_to_login: "लॉगिन पर जाएं" }
+            };
+            let currentLanguage = 'en';
+
+            const getStartedBtn = document.getElementById('getStartedBtn');
+            const finalCtaBtn = document.getElementById('finalCtaBtn');
+            const navLoginBtn = document.getElementById('loginBtn');
+            const navRegisterBtn = document.getElementById('registerBtn');
+            const screens = document.querySelectorAll('.screen');
+            const landingView = document.getElementById('landingView');
+            
+            function showScreen(screenId) {
+                const header = document.querySelector('.header');
+                const body = document.body;
+
+                if (screenId === 'landingView') {
+                    landingView.style.display = 'block';
+                    screens.forEach(s => s.classList.remove('active'));
+                    header.classList.remove('solid');
+                    body.style.background = '#f0f4f8';
+
+                } else {
+                    landingView.style.display = 'none';
+                    screens.forEach(s => s.classList.remove('active'));
+                    const targetScreen = document.getElementById(screenId);
+                    if (targetScreen) {
+                        targetScreen.classList.add('active');
+                    }
+                    header.classList.add('solid');
+                    body.style.background = 'linear-gradient(to right, #cffafe, #93c5fd, #818cf8)';
+                }
+                window.scrollTo(0, 0);
+            }
+
+            getStartedBtn.addEventListener('click', () => showScreen('loginTypeView'));
+            finalCtaBtn.addEventListener('click', () => showScreen('loginTypeView'));
+            navLoginBtn.addEventListener('click', () => showScreen('loginTypeView'));
+            navRegisterBtn.addEventListener('click', () => showScreen('registrationView'));
+            
+            document.querySelectorAll('[data-target]').forEach(element => {
+                element.addEventListener('click', (e) => {
+                    const target = e.currentTarget.getAttribute('data-target');
+                    if (target) {
+                        e.preventDefault();
+                        showScreen(target);
+                    }
+                });
+            });
+
+            function updateUIText() {
+                document.querySelectorAll('[data-key]').forEach(element => {
+                    const key = element.getAttribute('data-key');
+                    if (translations[currentLanguage] && translations[currentLanguage][key]) {
+                        element.textContent = translations[currentLanguage][key];
+                    } else if (translations['en'] && translations['en'][key]) {
+                        element.textContent = translations['en'][key];
+                    }
+                });
+            }
+            
+            const languageDropdown = document.querySelector('.language-dropdown');
+            const dropdownToggle = document.querySelector('.language-dropdown-toggle');
+            const languageOptions = document.querySelectorAll('.language-option');
+            const selectedLanguageSpan = document.getElementById('selectedLanguage');
+
+            // Load saved language preference if available
+            const savedLang = localStorage.getItem('appLanguage');
+            if (savedLang) {
+                currentLanguage = savedLang;
+                const optionEl = document.querySelector(`.language-option[data-lang="${savedLang}"]`);
+                if (optionEl) {
+                    selectedLanguageSpan.textContent = optionEl.textContent;
+                }
+                updateUIText();
+            }
+
+            if (languageDropdown) {
+                dropdownToggle.addEventListener('click', () => {
+                    languageDropdown.classList.toggle('open');
+                });
+
+                document.addEventListener('click', (e) => {
+                    if (!languageDropdown.contains(e.target)) {
+                        languageDropdown.classList.remove('open');
+                    }
+                });
+
+                languageOptions.forEach(option => {
+                    option.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        const lang = option.getAttribute('data-lang');
+                        const langText = option.textContent;
+
+                        if (lang) { 
+                            currentLanguage = lang;
+                            localStorage.setItem('appLanguage', lang);
+                            updateUIText();
+                        }
+                        
+                        selectedLanguageSpan.textContent = langText;
+                        languageDropdown.classList.remove('open');
+                    });
+                });
+            }
+
+            function populateCollegeDropdowns() {
+                const studentSelect = document.getElementById('collegeSelect');
+                if (!studentSelect) return;
+                studentSelect.innerHTML = '';
+                appData.colleges.forEach(college => {
+                    const option = document.createElement('option');
+                    option.value = college;
+                    option.textContent = college;
+                    studentSelect.appendChild(option);
+                });
+            }
+
+            function populateStreamDropdown() {
+                const select = document.getElementById('streamSelect');
+                if (!select) return;
+                select.innerHTML = '';
+                appData.streams.forEach(stream => {
+                    const option = document.createElement('option');
+                    option.value = stream.name;
+                    option.textContent = stream.name;
+                    select.appendChild(option);
+                });
+            }
+
+            function updateYearDropdown() {
+                const streamSelect = document.getElementById('streamSelect');
+                const yearSelect = document.getElementById('yearSelect');
+                if (!streamSelect || !yearSelect) return;
+                
+                const selectedStreamName = streamSelect.value;
+                const selectedStream = appData.streams.find(s => s.name === selectedStreamName);
+                const duration = selectedStream ? selectedStream.duration : 0;
+                yearSelect.innerHTML = '';
+                for (let i = 1; i <= duration; i++) {
+                    const option = document.createElement('option');
+                    let yearText;
+                    switch(i) {
+                        case 1: yearText = "1st Year"; break;
+                        case 2: yearText = "2nd Year"; break;
+                        case 3: yearText = "3rd Year"; break;
+                        default: yearText = `${i}th Year`;
+                    }
+                    option.value = yearText;
+                    option.textContent = yearText;
+                    yearSelect.appendChild(option);
+                }
+            }
+            
+             const studentLoginForm = document.getElementById('studentLoginForm');
+            if (studentLoginForm) {
+                studentLoginForm.addEventListener('submit', async (e) => {
+                    e.preventDefault();
+                    const studentId = document.getElementById('studentId').value;
+                    const password = document.getElementById('studentPassword').value;
+                    const submitButton = studentLoginForm.querySelector('button[type="submit"]');
+                    submitButton.textContent = 'Logging in...';
+                    submitButton.disabled = true;
+
+                    try {
+                        const response = await fetch(`${API_BASE_URL}/login`, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ studentId, password })
+                        });
+
+                        const data = await response.json();
+
+                        if (data.success) {
+                            sessionStorage.setItem('isLoggedIn', 'true');
+                            sessionStorage.setItem('user', JSON.stringify(data.user));
+                            window.location.href = 'student.html';
+                        } else {
+                            alert(`Login Failed: ${data.message}`);
+                        }
+                    } catch (error) {
+                        console.error('Login Error:', error);
+                        alert('An error occurred during login. Please try again.');
+                    } finally {
+                        submitButton.textContent = 'Login';
+                        submitButton.disabled = false;
+                    }
+                });
+            }
+
+            document.getElementById('doctorLoginForm')?.addEventListener('submit', (e) => { e.preventDefault(); alert('Doctor login not implemented yet.'); });
+            document.getElementById('adminLoginForm')?.addEventListener('submit', (e) => { e.preventDefault(); alert('Admin login not implemented yet.'); });
+            
+            const registrationForm = document.getElementById('registrationForm');
+            if(registrationForm) {
+                registrationForm.addEventListener('submit', async (e) => {
+                    e.preventDefault();
+                    const submitButton = registrationForm.querySelector('button[type="submit"]');
+                    submitButton.textContent = 'Registering...';
+                    submitButton.disabled = true;
+
+                    const formData = {
+                        fullName: document.getElementById('studentName').value,
+                        email: document.getElementById('studentEmail').value,
+                        college: document.getElementById('collegeSelect').value,
+                        password: document.getElementById('regPassword').value
+                    };
+
+                    try {
+                        const response = await fetch(`${API_BASE_URL}/register`, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify(formData)
+                        });
+
+                        const data = await response.json();
+
+                        if (data.success) {
+                            document.getElementById('newUserId').textContent = data.studentId;
+                            document.getElementById('registrationSuccessModal')?.classList.remove('hidden');
+                        } else {
+                            const errorMsg = data.errors ? data.errors.join('\n') : data.message;
+                            alert(`Registration Failed: ${errorMsg}`);
+                        }
+                    } catch (error) {
+                        console.error('Registration Error:', error);
+                        alert('An error occurred during registration. Please check the console and try again.');
+                    } finally {
+                        submitButton.textContent = 'Register';
+                        submitButton.disabled = false;
+                    }
+                });
+            }
+            
+             document.getElementById('closeRegSuccessBtn')?.addEventListener('click', () => {
+                document.getElementById('registrationSuccessModal')?.classList.add('hidden');
+                showScreen('loginTypeView');
+            });
+
+
+            const testimonialsViewport = document.querySelector('.testimonials-viewport');
+            const testimonialsGrid = document.querySelector('.testimonials-grid');
+            const testimonials = document.querySelectorAll('.testimonial-card');
+            const prevBtn = document.getElementById('testimonial-prev');
+            const nextBtn = document.getElementById('testimonial-next');
+
+            if (testimonials.length > 0) {
+                let currentIndex = 1;
+                let autoPlayTimer;
+
+                function updateCarousel() {
+                    if (!testimonials[currentIndex]) return;
+                    const activeCard = testimonials[currentIndex];
+                    const viewportCenter = testimonialsViewport.offsetWidth / 2;
+                    const cardCenter = activeCard.offsetLeft + activeCard.offsetWidth / 2;
+                    const scrollAmount = cardCenter - viewportCenter;
+                    testimonialsGrid.style.transform = `translateX(-${scrollAmount}px)`;
+                    testimonials.forEach((card, index) => {
+                        card.classList.toggle('active', index === currentIndex);
+                    });
+                }
+
+                function setGridPadding() {
+                    if (testimonials.length > 0) {
+                        const padding = (testimonialsViewport.offsetWidth / 2) - (testimonials[0].offsetWidth / 2);
+                        testimonialsGrid.style.padding = `0 ${padding}px`;
+                    }
+                }
+
+                function moveTo(newIndex) {
+                    currentIndex = (newIndex + testimonials.length) % testimonials.length;
+                    updateCarousel();
+                }
+
+                function startAutoPlay() {
+                    stopAutoPlay();
+                    autoPlayTimer = setInterval(() => {
+                        moveTo(currentIndex + 1);
+                    }, 5000);
+                }
+
+                function stopAutoPlay() {
+                    clearInterval(autoPlayTimer);
+                }
+
+                nextBtn.addEventListener('click', () => {
+                    stopAutoPlay();
+                    moveTo(currentIndex + 1);
+                    startAutoPlay();
+                });
+
+                prevBtn.addEventListener('click', () => {
+                    stopAutoPlay();
+                    moveTo(currentIndex - 1);
+                    startAutoPlay();
+                });
+                
+                window.addEventListener('resize', () => {
+                    setGridPadding();
+                    updateCarousel();
+                });
+                
+                setGridPadding();
+                moveTo(currentIndex);
+                startAutoPlay();
+            }
+
+            const feedbackForm = document.getElementById('feedbackForm');
+            if(feedbackForm) {
+                feedbackForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    const feedbackText = document.getElementById('feedbackText').value;
+                    if (feedbackText.trim()) {
+                        console.log('Feedback submitted:', feedbackText);
+                        alert('Thank you for your feedback!');
+                        document.getElementById('feedbackText').value = '';
+                    } else {
+                        alert('Please enter your feedback before submitting.');
+                    }
+                });
+            }
+            const fadeInElements = document.querySelectorAll('.fade-in-element');
+            if (window.IntersectionObserver) {
+                const observer = new IntersectionObserver((entries, observer) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('is-visible');
+                            observer.unobserve(entry.target);
+                        }
+                    });
+                }, { threshold: 0.1 });
+                
+                fadeInElements.forEach(el => {
+                    observer.observe(el);
+                });
+            } else {
+                fadeInElements.forEach(el => el.classList.add('is-visible'));
+            }
+
+            document.getElementById('streamSelect')?.addEventListener('change', updateYearDropdown);
+            populateCollegeDropdowns();
+            populateStreamDropdown();
+            updateYearDropdown();
+            updateUIText();
+        });
+        const lenis = new Lenis({
+          duration: 1.2,
+          easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+          smooth: true,
+        });
+
+        function raf(time) {
+          lenis.raf(time);
+          requestAnimationFrame(raf);
+        }
+
+        requestAnimationFrame(raf);
+
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/service-worker.js')
+            .then(registration => {
+              console.log('Service Worker registered successfully:', registration);
+            })
+            .catch(error => {
+              console.log('Service Worker registration failed:', error);
+            });
+        });
+      }
+
+    </script>
+</body>
+</html>
