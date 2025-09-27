@@ -109,7 +109,6 @@
         .header nav a:hover { color: var(--text-color); background-color: rgba(128, 128, 128, 0.1); }
         .header .actions { display: flex; align-items: center; gap: 0.75rem; }
         
-        /* Language Dropdown Styles */
         .language-dropdown {
             position: relative;
             display: inline-block;
@@ -284,7 +283,6 @@
         .recommendation-item:before { content: "✓"; color: var(--primary-color); position: absolute; left: 0; font-weight: bold;}
         .next-steps { display: flex; flex-wrap: wrap; gap: var(--space-16); justify-content: center; margin-top: var(--space-32); }
         
-        /* --- RESPONSIVENESS FIX: CHAT CONTAINER --- */
         .chat-container { height: calc(100vh - 220px); max-height: 700px; display: flex; flex-direction: column; }
         
         .chat-messages { flex: 1; overflow-y: auto; padding: var(--space-16); background: var(--card-bg-color); border: 1px solid var(--border-color); border-radius: var(--radius-lg) var(--radius-lg) 0 0; }
@@ -316,23 +314,42 @@
         .resource-item:hover { transform: translateY(-5px); box-shadow: 0 12px 40px 0 var(--shadow-color); border-color: var(--primary-color);}
         .resource-type { background: var(--color-secondary); color: var(--primary-color); padding: var(--space-4) var(--space-8); border-radius: var(--radius-sm); font-size: 11px; font-weight: var(--font-weight-medium); display: inline-block; margin-top: 1rem; }
         .counselor-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: var(--space-20); }
-        .counselor-card { background: var(--card-bg-color); border: 1px solid var(--border-color); border-radius: var(--radius-lg); padding: var(--space-24); text-align: center; transition: all 0.3s ease;}
-        .counselor-card:hover { transform: translateY(-5px); box-shadow: 0 12px 40px 0 var(--shadow-color); border-color: var(--primary-color); }
+        
+        /* --- Counselor Card Styling Changes --- */
+        .counselor-card { 
+            background: var(--card-bg-color); 
+            border: 2px solid var(--border-color); /* Thicker border for better visibility */
+            border-radius: var(--radius-lg); 
+            padding: var(--space-24); 
+            text-align: center; 
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        .counselor-card:hover { 
+            transform: translateY(-5px); 
+            box-shadow: 0 12px 40px 0 var(--shadow-color); 
+            border-color: var(--primary-color); 
+        }
+        .counselor-card.selected {
+            border-color: var(--primary-color);
+            background-color: rgba(13, 148, 136, 0.1);
+            box-shadow: 0 6px 20px rgba(13, 148, 136, 0.2);
+            transform: translateY(-2px);
+        }
+        /* --- End Counselor Card Styling --- */
+
         .calendar-container { background: var(--card-bg-color); border: 1px solid var(--border-color); border-radius: var(--radius-lg); padding: var(--space-20); margin-bottom: var(--space-24); }
         .calendar-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--space-20); }
         .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: var(--space-4); text-align: center;}
         .calendar-day { aspect-ratio: 1; display: flex; align-items: center; justify-content: center; border-radius: var(--radius-full); cursor: pointer; transition: all 0.2s ease; }
         .calendar-day.available:hover { background: var(--color-secondary); }
-        /* BUG FIX: Added styles for disabled calendar days */
         .calendar-day.disabled {
             color: #ccc;
             cursor: not-allowed;
             background-color: transparent !important;
             text-decoration: line-through;
         }
-        .calendar-day.disabled:hover {
-             transform: none;
-        }
+        .calendar-day.disabled:hover { transform: none; }
         .calendar-day.selected { background: var(--primary-color); color: white; transform: scale(1.1); }
         .time-slots { display: grid; grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); gap: var(--space-12); }
         .time-slot { background: var(--color-secondary); border: 1px solid var(--border-color); border-radius: var(--radius-base); padding: var(--space-12); text-align: center; cursor: pointer; transition: all 0.2s ease; }
@@ -344,10 +361,18 @@
         .appointment-icon { flex-shrink: 0; width: 40px; height: 40px; background-color: var(--color-secondary); border-radius: var(--radius-base); display: flex; align-items: center; justify-content: center; color: var(--primary-color); transition: all 0.2s ease; }
         .appointment-type:has(input:checked) .appointment-icon { background-color: var(--primary-color); color: white; }
         
-        .appointment-summary { background: var(--color-secondary); border-radius: var(--radius-lg); padding: var(--space-24); margin-bottom: var(--space-24); }
+        .appointment-summary { 
+            background: var(--color-secondary); 
+            border-radius: var(--radius-lg); 
+            padding: var(--space-24); 
+            margin-top: 1.5rem;
+            border: 1px solid var(--border-color);
+        }
         .summary-item { display: flex; justify-content: space-between; padding-bottom: var(--space-12); margin-bottom: var(--space-12); border-bottom: 1px solid var(--border-color); }
         .summary-item:last-child { border: none; }
+
         .booking-navigation { display: flex; justify-content: space-between; margin-top: 1.5rem; }
+
         .modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; z-index: 1000; backdrop-filter: blur(5px); }
         .hidden { display: none !important; }
         .modal-content { background: var(--card-bg-color); border-radius: 24px; padding: 2rem; border: 1px solid var(--border-color); width: 90%; max-width: 450px; text-align: center; animation: modal-pop 0.3s ease-out; }
@@ -358,7 +383,6 @@
         .chart-card h3 { margin-bottom: 1.5rem; text-align: center; }
         .chart-container { height: 350px; position: relative; }
 
-        /* --- RESPONSIVENESS FIX: MEDIA QUERIES --- */
         @media (max-width: 992px) { 
             .dashboard { grid-template-columns: 1fr; } 
             .journey-grid { grid-template-columns: 1fr; }
@@ -695,20 +719,20 @@
                                         </label>
                                     </div>
                                 </div>
-                                <div class="booking-step" id="confirmation">
-                                    <h3>Step 4: Confirm Appointment</h3>
-                                    <div class="appointment-summary">
-                                        <div class="summary-item"><strong>Counselor:</strong> <span id="confirmedCounselor"></span></div>
-                                        <div class="summary-item"><strong>Date:</strong> <span id="confirmedDate"></span></div>
-                                        <div class="summary-item"><strong>Time:</strong> <span id="confirmedTime"></span></div>
-                                        <div class="summary-item"><strong>Format:</strong> <span id="confirmedType"></span></div>
-                                    </div>
-                                    <button class="btn btn-primary" id="confirmBooking">Confirm Appointment</button>
-                                </div>
                             </div>
+                            <!-- Appointment Summary is now outside the steps -->
+                            <div class="appointment-summary hidden" id="appointmentSummary">
+                                <h4>Appointment Details</h4>
+                                <div class="summary-item"><strong>Counselor:</strong> <span id="confirmedCounselor">...</span></div>
+                                <div class="summary-item"><strong>Date:</strong> <span id="confirmedDate">...</span></div>
+                                <div class="summary-item"><strong>Time:</strong> <span id="confirmedTime">...</span></div>
+                                <div class="summary-item"><strong>Format:</strong> <span id="confirmedType">...</span></div>
+                            </div>
+
+                            <!-- Navigation buttons are updated -->
                             <div class="booking-navigation">
                                 <button class="btn" id="prevStep" disabled>Previous</button>
-                                <button class="btn btn-primary" id="nextStep" disabled>Next</button>
+                                <button class="btn btn-primary" id="confirmBookingBtn" disabled>Confirm Appointment</button>
                             </div>
                         </div>
                     </div>
@@ -732,32 +756,43 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            // --- STATE MANAGEMENT --- //
             const API_BASE_URL = 'https://nahidwin-naim.onrender.com/v1';
             let user = null;
-            let currentLanguage = 'en'; // Language state
+            let currentLanguage = 'en';
+            
+            // Assessment State
+            let currentAssessment = null; 
+            let currentQuestionIndex = 0; 
+            let assessmentAnswers = []; 
+            
+            // Booking State
+            let selectedCounselor = null; 
+            let selectedDate = null; 
+            let selectedTime = null; 
+            let bookingStep = 0; 
+            let currentMonth = new Date().getMonth(); 
+            let currentYear = new Date().getFullYear();
 
-            // Translations object for UI text
+            // --- DATA --- //
             const translations = {
-                en: {
-                    home: "Home", my_journey: "My Journey", resources: "Resources", logout: "Logout", sos: "SOS",
-                    welcome_back: "Welcome back,", welcome_subtitle: "Your path to well-being continues.",
-                    ai_chat_title: "AI Support Chat", ai_chat_subtitle: "Immediate, confidential support, 24/7.", ai_chat_button: "Start a Conversation",
-                    next_session: "Your next session:", last_score: "Last anxiety score:", toolkit_title: "Your Toolkit",
-                    resource_library_title: "Resource Library", resource_library_subtitle: "Explore articles, tools, and exercises.",
-                    assessments_title: "Assessments", assessments_subtitle: "Understand your mind better.",
-                    booking_title: "Book an Appointment", booking_subtitle: "Talk to a professional counselor."
-                },
-                hi: {
-                    home: "होम", my_journey: "मेरी यात्रा", resources: "संसाधन", logout: "लॉग आउट", sos: "एसओएस",
-                    welcome_back: "वापसी पर स्वागत है,", welcome_subtitle: "कल्याण की ओर आपका मार्ग जारी है।",
-                    ai_chat_title: "एआई सहायता चैट", ai_chat_subtitle: "तुरंत, गोपनीय सहायता, 24/7।", ai_chat_button: "बातचीत शुरू करें",
-                    next_session: "आपका अगला सत्र:", last_score: "पिछला चिंता स्कोर:", toolkit_title: "आपकी टूलकिट",
-                    resource_library_title: "संसाधन पुस्तकालय", resource_library_subtitle: "लेख, उपकरण और अभ्यास खोजें।",
-                    assessments_title: "मूल्यांकन", assessments_subtitle: "अपने मन को बेहतर समझें।",
-                    booking_title: "अपॉइंटमेंट बुक करें", booking_subtitle: "एक पेशेवर परामर्शदाता से बात करें।"
-                }
+                en: { home: "Home", my_journey: "My Journey", resources: "Resources", logout: "Logout", sos: "SOS", welcome_back: "Welcome back,", welcome_subtitle: "Your path to well-being continues.", ai_chat_title: "AI Support Chat", ai_chat_subtitle: "Immediate, confidential support, 24/7.", ai_chat_button: "Start a Conversation", next_session: "Your next session:", last_score: "Last anxiety score:", toolkit_title: "Your Toolkit", resource_library_title: "Resource Library", resource_library_subtitle: "Explore articles, tools, and exercises.", assessments_title: "Assessments", assessments_subtitle: "Understand your mind better.", booking_title: "Book an Appointment", booking_subtitle: "Talk to a professional counselor." },
+                hi: { home: "होम", my_journey: "मेरी यात्रा", resources: "संसाधन", logout: "लॉग आउट", sos: "एसओएस", welcome_back: "वापसी पर स्वागत है,", welcome_subtitle: "कल्याण की ओर आपका मार्ग जारी है।", ai_chat_title: "एआई सहायता चैट", ai_chat_subtitle: "तुरंत, गोपनीय सहायता, 24/7।", ai_chat_button: "बातचीत शुरू करें", next_session: "आपका अगला सत्र:", last_score: "पिछला चिंता स्कोर:", toolkit_title: "आपकी टूलकिट", resource_library_title: "संसाधन पुस्तकालय", resource_library_subtitle: "लेख, उपकरण और अभ्यास खोजें।", assessments_title: "मूल्यांकन", assessments_subtitle: "अपने मन को बेहतर समझें।", booking_title: "अपॉइंटमेंट बुक करें", booking_subtitle: "एक पेशेवर परामर्शदाता से बात करें।" }
             };
 
+            const appData = {
+                phq9_questions: { en: [{"id": "PHQ9_Q1", "text": "Little interest or pleasure in doing things", "options": ["Not at all (0)", "Several days (1)", "More than half the days (2)", "Nearly every day (3)"]}, {"id": "PHQ9_Q2", "text": "Feeling down, depressed, or hopeless", "options": ["Not at all (0)", "Several days (1)", "More than half the days (2)", "Nearly every day (3)"]}, {"id": "PHQ9_Q3", "text": "Trouble falling or staying asleep, or sleeping too much", "options": ["Not at all (0)", "Several days (1)", "More than half the days (2)", "Nearly every day (3)"]}, {"id": "PHQ9_Q4", "text": "Feeling tired or having little energy", "options": ["Not at all (0)", "Several days (1)", "More than half the days (2)", "Nearly every day (3)"]}, {"id": "PHQ9_Q5", "text": "Poor appetite or overeating", "options": ["Not at all (0)", "Several days (1)", "More than half the days (2)", "Nearly every day (3)"]}, {"id": "PHQ9_Q6", "text": "Feeling bad about yourself — or that you are a failure", "options": ["Not at all (0)", "Several days (1)", "More than half the days (2)", "Nearly every day (3)"]}, {"id": "PHQ9_Q7", "text": "Trouble concentrating on things", "options": ["Not at all (0)", "Several days (1)", "More than half the days (2)", "Nearly every day (3)"]}, {"id": "PHQ9_Q8", "text": "Moving or speaking slowly or being restless", "options": ["Not at all (0)", "Several days (1)", "More than half the days (2)", "Nearly every day (3)"]}, {"id": "PHQ9_Q9", "text": "Thoughts that you would be better off dead", "options": ["Not at all (0)", "Several days (1)", "More than half the days (2)", "Nearly every day (3)"]}] },
+                gad7_questions: { en: [{"id": "GAD7_Q1", "text": "Feeling nervous, anxious or on edge", "options": ["Not at all (0)", "Several days (1)", "More than half the days (2)", "Nearly every day (3)"]}, {"id": "GAD7_Q2", "text": "Not being able to stop or control worrying", "options": ["Not at all (0)", "Several days (1)", "More than half the days (2)", "Nearly every day (3)"]}, {"id": "GAD7_Q3", "text": "Worrying too much about different things", "options": ["Not at all (0)", "Several days (1)", "More than half the days (2)", "Nearly every day (3)"]}, {"id": "GAD7_Q4", "text": "Trouble relaxing", "options": ["Not at all (0)", "Several days (1)", "More than half the days (2)", "Nearly every day (3)"]}, {"id": "GAD7_Q5", "text": "Being so restless that it is hard to sit still", "options": ["Not at all (0)", "Several days (1)", "More than half the days (2)", "Nearly every day (3)"]}, {"id": "GAD7_Q6", "text": "Becoming easily annoyed or irritable", "options": ["Not at all (0)", "Several days (1)", "More than half the days (2)", "Nearly every day (3)"]}, {"id": "GAD7_Q7", "text": "Feeling afraid as if something awful might happen", "options": ["Not at all (0)", "Several days (1)", "More than half the days (2)", "Nearly every day (3)"]}] },
+                counselors: [ {"id": "C001", "name": "Dr. Sarah Johnson", "specialization": "Anxiety and Depression"}, {"id": "C002", "name": "Dr. Rajesh Kumar", "specialization": "Student Counseling"}],
+                resources: [
+                    { category: "CBT Modules", items: [{ title: "Thought Record Exercise", description: "Track and analyze your thoughts", type: "Worksheet" }, { title: "Cognitive Restructuring", description: "Challenge negative thinking patterns", type: "Module" }] },
+                    { category: "Mindfulness & Relaxation", items: [{ title: "Breathing Exercises for Anxiety", description: "Manage anxiety with breathing", type: "Video - 5 min" }, { title: "Mindfulness Meditation", description: "Guided meditation for stress", type: "Audio - 10 min" }] },
+                    { category: "Educational Content", items: [{ title: "Understanding Depression", description: "Learn about symptoms and causes", type: "Article" }, { title: "Managing Academic Stress", description: "Tips for handling college pressure", type: "Guide" }] },
+                    { category: "Peer Support", items: [{ title: "Student Success Stories", description: "Read how others overcame challenges", type: "Stories" }, { title: "Support Group Directory", description: "Find peer support groups", type: "Directory" }] }
+                ]
+            };
+            
+            // --- CORE APP FUNCTIONS --- //
             function checkAuth() {
                 const isLoggedIn = sessionStorage.getItem('isLoggedIn');
                 const userData = sessionStorage.getItem('user');
@@ -774,17 +809,28 @@
                 return true;
             }
 
+            function showScreen(screenId) {
+                document.querySelectorAll('.screen').forEach(screen => screen.classList.remove('active'));
+                document.getElementById(screenId)?.classList.add('active');
+                document.querySelectorAll('nav a').forEach(a => a.classList.remove('active'));
+                document.querySelector(`nav a[data-screen="${screenId}"]`)?.classList.add('active');
+                window.scrollTo(0, 0);
+            }
+
+            function handleLogout() {
+                sessionStorage.clear();
+                alert('You have been logged out.');
+                window.location.href = 'index.html';
+            }
+
+            // --- UI AND TEXT FUNCTIONS --- //
             function updateUIText() {
                 const langPack = translations[currentLanguage] || translations.en;
                 document.querySelectorAll('[data-key]').forEach(element => {
                     const key = element.getAttribute('data-key');
-                    if (key === 'welcome_back') return; // Skip the welcome banner h1 as it's dynamic
-                    if (langPack[key]) {
-                        element.textContent = langPack[key];
-                    }
+                    if (key === 'welcome_back') return; 
+                    if (langPack[key]) element.textContent = langPack[key];
                 });
-                
-                // Special handling for the dynamic welcome message
                 const welcomeBannerH1 = document.querySelector('.welcome-banner h1');
                 if (welcomeBannerH1 && user && user.fullName) {
                      const welcomeText = langPack.welcome_back || translations.en.welcome_back;
@@ -793,98 +839,47 @@
             }
             
             function setupLanguageSwitcher() {
-                const languageDropdown = document.querySelector('.language-dropdown');
-                if (!languageDropdown) return;
-                const dropdownToggle = languageDropdown.querySelector('.language-dropdown-toggle');
-                const languageOptions = languageDropdown.querySelectorAll('.language-option');
-                const selectedLanguageSpan = document.getElementById('selectedLanguage');
-
-                dropdownToggle.addEventListener('click', () => {
-                    languageDropdown.classList.toggle('open');
-                });
-
-                document.addEventListener('click', (e) => {
-                    if (!languageDropdown.contains(e.target)) {
-                        languageDropdown.classList.remove('open');
-                    }
-                });
-
-                languageOptions.forEach(option => {
+                const dropdown = document.querySelector('.language-dropdown');
+                if (!dropdown) return;
+                dropdown.querySelector('.language-dropdown-toggle').addEventListener('click', () => dropdown.classList.toggle('open'));
+                document.addEventListener('click', (e) => { if (!dropdown.contains(e.target)) dropdown.classList.remove('open'); });
+                dropdown.querySelectorAll('.language-option').forEach(option => {
                     option.addEventListener('click', (e) => {
                         e.preventDefault();
-                        const lang = option.getAttribute('data-lang');
-                        const langText = option.textContent;
-
-                        if (lang) {
-                            currentLanguage = lang;
-                            updateUIText();
-                        }
-
-                        selectedLanguageSpan.textContent = langText;
-                        languageDropdown.classList.remove('open');
+                        currentLanguage = option.getAttribute('data-lang');
+                        document.getElementById('selectedLanguage').textContent = option.textContent;
+                        updateUIText();
+                        dropdown.classList.remove('open');
                     });
                 });
             }
 
-            const appData = {
-                phq9_questions: { en: [{"id": "PHQ9_Q1", "text": "Little interest or pleasure in doing things", "options": ["Not at all (0)", "Several days (1)", "More than half the days (2)", "Nearly every day (3)"]}, {"id": "PHQ9_Q2", "text": "Feeling down, depressed, or hopeless", "options": ["Not at all (0)", "Several days (1)", "More than half the days (2)", "Nearly every day (3)"]}, {"id": "PHQ9_Q3", "text": "Trouble falling or staying asleep, or sleeping too much", "options": ["Not at all (0)", "Several days (1)", "More than half the days (2)", "Nearly every day (3)"]}, {"id": "PHQ9_Q4", "text": "Feeling tired or having little energy", "options": ["Not at all (0)", "Several days (1)", "More than half the days (2)", "Nearly every day (3)"]}, {"id": "PHQ9_Q5", "text": "Poor appetite or overeating", "options": ["Not at all (0)", "Several days (1)", "More than half the days (2)", "Nearly every day (3)"]}, {"id": "PHQ9_Q6", "text": "Feeling bad about yourself — or that you are a failure", "options": ["Not at all (0)", "Several days (1)", "More than half the days (2)", "Nearly every day (3)"]}, {"id": "PHQ9_Q7", "text": "Trouble concentrating on things", "options": ["Not at all (0)", "Several days (1)", "More than half the days (2)", "Nearly every day (3)"]}, {"id": "PHQ9_Q8", "text": "Moving or speaking slowly or being restless", "options": ["Not at all (0)", "Several days (1)", "More than half the days (2)", "Nearly every day (3)"]}, {"id": "PHQ9_Q9", "text": "Thoughts that you would be better off dead", "options": ["Not at all (0)", "Several days (1)", "More than half the days (2)", "Nearly every day (3)"]}] },
-                gad7_questions: { en: [{"id": "GAD7_Q1", "text": "Feeling nervous, anxious or on edge", "options": ["Not at all (0)", "Several days (1)", "More than half the days (2)", "Nearly every day (3)"]}, {"id": "GAD7_Q2", "text": "Not being able to stop or control worrying", "options": ["Not at all (0)", "Several days (1)", "More than half the days (2)", "Nearly every day (3)"]}, {"id": "GAD7_Q3", "text": "Worrying too much about different things", "options": ["Not at all (0)", "Several days (1)", "More than half the days (2)", "Nearly every day (3)"]}, {"id": "GAD7_Q4", "text": "Trouble relaxing", "options": ["Not at all (0)", "Several days (1)", "More than half the days (2)", "Nearly every day (3)"]}, {"id": "GAD7_Q5", "text": "Being so restless that it is hard to sit still", "options": ["Not at all (0)", "Several days (1)", "More than half the days (2)", "Nearly every day (3)"]}, {"id": "GAD7_Q6", "text": "Becoming easily annoyed or irritable", "options": ["Not at all (0)", "Several days (1)", "More than half the days (2)", "Nearly every day (3)"]}, {"id": "GAD7_Q7", "text": "Feeling afraid as if something awful might happen", "options": ["Not at all (0)", "Several days (1)", "More than half the days (2)", "Nearly every day (3)"]}] },
-                counselors: [ {"id": "C001", "name": "Dr. Sarah Johnson", "specialization": "Anxiety and Depression"}, {"id": "C002", "name": "Dr. Rajesh Kumar", "specialization": "Student Counseling"}],
-                resources: [
-                    { category: "CBT Modules", items: [{ title: "Thought Record Exercise", description: "Track and analyze your thoughts", type: "Worksheet" }, { title: "Cognitive Restructuring", description: "Challenge negative thinking patterns", type: "Module" }] },
-                    { category: "Mindfulness & Relaxation", items: [{ title: "Breathing Exercises for Anxiety", description: "Manage anxiety with breathing", type: "Video - 5 min" }, { title: "Mindfulness Meditation", description: "Guided meditation for stress", type: "Audio - 10 min" }] },
-                    { category: "Educational Content", items: [{ title: "Understanding Depression", description: "Learn about symptoms and causes", type: "Article" }, { title: "Managing Academic Stress", description: "Tips for handling college pressure", type: "Guide" }] },
-                    { category: "Peer Support", items: [{ title: "Student Success Stories", description: "Read how others overcame challenges", type: "Stories" }, { title: "Support Group Directory", description: "Find peer support groups", type: "Directory" }] }
-                ]
-            };
-            let currentAssessment = null; let currentQuestionIndex = 0; let assessmentAnswers = []; let selectedCounselor = null; let selectedDate = null; let selectedTime = null; let bookingStep = 0; let currentMonth = new Date().getMonth(); let currentYear = new Date().getFullYear();
-            
-            function showScreen(screenId) {
-                document.querySelectorAll('.screen').forEach(screen => screen.classList.remove('active'));
-                const targetScreen = document.getElementById(screenId);
-                if (targetScreen) targetScreen.classList.add('active');
-                document.querySelectorAll('nav a').forEach(a => a.classList.remove('active'));
-                const activeLink = document.querySelector(`nav a[data-screen="${screenId}"]`);
-                if(activeLink) activeLink.classList.add('active');
-                window.scrollTo(0, 0);
-            }
-            function handleLogout() {
-                sessionStorage.clear();
-                alert('You have been logged out.');
-                window.location.href = 'index.html';
-            }
-            function setupNavigation() {
-                document.querySelectorAll('[data-screen]').forEach(el => el.addEventListener('click', (e) => { e.preventDefault(); showScreen(el.dataset.screen); }));
-                document.querySelectorAll('.back-btn').forEach(btn => btn.addEventListener('click', () => showScreen('dashboardScreen')));
-            }
+            // --- CHAT FUNCTIONS --- //
             function setupChat() {
                 const chatInput = document.getElementById('chatInput');
-                const sendBtn = document.getElementById('sendMessage');
-                sendBtn?.addEventListener('click', sendMessage);
+                document.getElementById('sendMessage')?.addEventListener('click', sendMessage);
                 chatInput?.addEventListener('keypress', e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); }});
                 document.querySelectorAll('.quick-response').forEach(btn => btn.addEventListener('click', () => { chatInput.value = btn.dataset.message; sendMessage(); }));
             }
             async function sendMessage() {
                 const input = document.getElementById('chatInput'); const userMessage = input.value.trim(); if (!userMessage) return; addMessage(userMessage, 'user'); input.value = '';
-                const typingIndicator = document.getElementById('typing-indicator'); typingIndicator.classList.remove('hidden');
+                document.getElementById('typing-indicator').classList.remove('hidden');
                 try {
                     const response = await fetch(`${API_BASE_URL}/predict`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ message: userMessage, userId: user.studentId }) });
-                    if (!response.ok) { throw new Error(`HTTP Error: ${response.status}`); }
+                    if (!response.ok) throw new Error(`HTTP Error: ${response.status}`);
                     const data = await response.json();
-                    const isCrisis = (data.analysis && data.analysis.crisis_detected === true) || data.is_crisis_response === true;
-                    let isRecommendation = false;
-                    if (data.professional_referral && data.professional_referral.text) { isRecommendation = data.professional_referral.is_recommendation === true; setTimeout(() => { addMessage(data.professional_referral.text, 'bot', false, isRecommendation); }, 800); }
-                    addMessage(data.response, 'bot', isCrisis, isRecommendation);
-                } catch (error) { console.error('Chat Error:', error); addMessage("I'm sorry, I'm having trouble connecting right now. Please try again in a moment.", 'bot'); } finally { typingIndicator.classList.add('hidden'); }
+                    addMessage(data.response, 'bot', (data.analysis?.crisis_detected || data.is_crisis_response));
+                } catch (error) { console.error('Chat Error:', error); addMessage("I'm sorry, I'm having trouble connecting right now.", 'bot'); } 
+                finally { document.getElementById('typing-indicator').classList.add('hidden'); }
             }
-            function addMessage(text, sender, isCrisis = false, isRecommendation = false) {
-                const messagesContainer = document.getElementById('chatMessages'); const msgDiv = document.createElement('div'); msgDiv.className = `message ${sender}-message`;
-                function formatMessage(str) { str = str.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>'); return str.replace(/\n/g, '<br>'); }
-                msgDiv.innerHTML = `<div class="message-content"><p>${formatMessage(text)}</p></div><span class="message-time">${new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</span>`;
-                const contentDiv = msgDiv.querySelector('.message-content');
-                if (isCrisis && sender === 'bot') { contentDiv.classList.add('crisis-message'); }
-                if (isRecommendation && sender === 'bot') { contentDiv.classList.add('recommendation-message'); }
-                messagesContainer.insertBefore(msgDiv, document.getElementById('typing-indicator')); messagesContainer.scrollTop = messagesContainer.scrollHeight;
+            function addMessage(text, sender, isCrisis = false) {
+                const messagesContainer = document.getElementById('chatMessages'); 
+                const msgDiv = document.createElement('div'); 
+                msgDiv.className = `message ${sender}-message`;
+                msgDiv.innerHTML = `<div class="message-content"><p>${text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').replace(/\n/g, '<br>')}</p></div><span class="message-time">${new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</span>`;
+                if (isCrisis && sender === 'bot') msgDiv.querySelector('.message-content').classList.add('crisis-message');
+                messagesContainer.insertBefore(msgDiv, document.getElementById('typing-indicator')); 
+                messagesContainer.scrollTop = messagesContainer.scrollHeight;
             }
             async function loadChatHistory() {
                 if (!user || !user.studentId) return;
@@ -895,151 +890,245 @@
                     if (data.success && data.history) {
                         const messagesContainer = document.getElementById('chatMessages');
                         messagesContainer.innerHTML = '<div id="typing-indicator" class="message bot-message hidden"><div class="message-content"><div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div></div></div>';
-                        data.history.forEach(msg => { const sender = msg.role === 'assistant' ? 'bot' : 'user'; addMessage(msg.content, sender); });
+                        data.history.forEach(msg => addMessage(msg.content, msg.role === 'assistant' ? 'bot' : 'user'));
                     }
-                } catch (error) { console.error("Could not load chat history:", error); addMessage("I couldn't retrieve our past conversation, but we can start a new one!", 'bot'); }
+                } catch (error) { console.error("Could not load chat history:", error); addMessage("I couldn't retrieve our past conversation.", 'bot'); }
             }
+
+            // --- ASSESSMENT FUNCTIONS --- //
             function setupAssessment() {
                 document.querySelectorAll('.assessment-option button').forEach(btn => btn.addEventListener('click', (e) => startAssessment(e.target.closest('.assessment-option').dataset.type)));
-                document.getElementById('nextQuestion')?.addEventListener('click', nextQuestion); document.getElementById('prevQuestion')?.addEventListener('click', prevQuestion); document.getElementById('retakeAssessment')?.addEventListener('click', resetAssessment);
+                document.getElementById('nextQuestion')?.addEventListener('click', nextQuestion); 
+                document.getElementById('prevQuestion')?.addEventListener('click', prevQuestion); 
+                document.getElementById('retakeAssessment')?.addEventListener('click', resetAssessment);
             }
             function startAssessment(type) { currentAssessment = type; currentQuestionIndex = 0; assessmentAnswers = []; showAssessmentStep('assessmentQuestions'); displayQuestion(); }
             function displayQuestion() {
-                const questions = currentAssessment === 'phq9' ? appData.phq9_questions.en : appData.gad7_questions.en; const question = questions[currentQuestionIndex];
-                document.getElementById('questionText').textContent = question.text; const optionsContainer = document.getElementById('questionOptions'); optionsContainer.innerHTML = '';
-                question.options.forEach((option, index) => { const optDiv = document.createElement('div'); optDiv.className = 'question-option'; optDiv.textContent = option; optDiv.onclick = () => selectOption(optDiv, index); if (assessmentAnswers[currentQuestionIndex] === index) optDiv.classList.add('selected'); optionsContainer.appendChild(optDiv); });
-                updateProgress(); updateNavigationButtons();
+                const questions = currentAssessment === 'phq9' ? appData.phq9_questions.en : appData.gad7_questions.en; 
+                const question = questions[currentQuestionIndex];
+                document.getElementById('questionText').textContent = question.text; 
+                const optionsContainer = document.getElementById('questionOptions'); optionsContainer.innerHTML = '';
+                question.options.forEach((option, index) => { 
+                    const optDiv = document.createElement('div'); 
+                    optDiv.className = 'question-option'; 
+                    optDiv.textContent = option; 
+                    optDiv.onclick = () => selectOption(optDiv, index); 
+                    if (assessmentAnswers[currentQuestionIndex] === index) optDiv.classList.add('selected'); 
+                    optionsContainer.appendChild(optDiv); 
+                });
+                updateProgress(); 
+                updateNavigationButtons();
             }
-            function selectOption(el, value) { document.querySelectorAll('.question-option').forEach(opt => opt.classList.remove('selected')); el.classList.add('selected'); assessmentAnswers[currentQuestionIndex] = value; updateNavigationButtons(); }
+            function selectOption(el, value) { document.querySelectorAll('.question-option.selected').forEach(opt => opt.classList.remove('selected')); el.classList.add('selected'); assessmentAnswers[currentQuestionIndex] = value; updateNavigationButtons(); }
             function nextQuestion() {
                  const questions = currentAssessment === 'phq9' ? appData.phq9_questions.en : appData.gad7_questions.en;
                  if (currentQuestionIndex < questions.length - 1) { currentQuestionIndex++; displayQuestion(); } else { calculateResults(); }
             }
             function prevQuestion() { if (currentQuestionIndex > 0) { currentQuestionIndex--; displayQuestion(); } }
-            function updateProgress() { const questions = currentAssessment === 'phq9' ? appData.phq9_questions.en : appData.gad7_questions.en; const progress = ((currentQuestionIndex + 1) / questions.length) * 100; document.querySelector('.progress-fill').style.width = `${progress}%`; }
+            function updateProgress() { const questions = currentAssessment === 'phq9' ? appData.phq9_questions.en : appData.gad7_questions.en; document.querySelector('.progress-fill').style.width = `${((currentQuestionIndex + 1) / questions.length) * 100}%`; }
             function updateNavigationButtons() { document.getElementById('prevQuestion').disabled = currentQuestionIndex === 0; document.getElementById('nextQuestion').disabled = assessmentAnswers[currentQuestionIndex] === undefined; }
             function calculateResults() {
-                const totalScore = assessmentAnswers.reduce((sum, answer) => sum + (answer || 0), 0); const maxScore = currentAssessment === 'phq9' ? 27 : 21; let riskLevel, riskClass, recommendations;
-                if (currentAssessment === 'phq9') { if (totalScore <= 4) { riskLevel = 'Minimal Depression'; riskClass = 'risk-minimal'; recommendations = ['Continue with healthy lifestyle habits', 'Stay connected with friends and family']; } else if (totalScore <= 9) { riskLevel = 'Mild Depression'; riskClass = 'risk-mild'; recommendations = ['Practice stress management techniques', 'Monitor your mood regularly', 'Consider CBT exercises from our Resource Library']; } else if (totalScore <= 14) { riskLevel = 'Moderate Depression'; riskClass = 'risk-moderate'; recommendations = ['Strongly recommend professional counseling', 'Use our AI chat support for daily guidance', 'Practice mindfulness and relaxation techniques']; } else { riskLevel = 'Severe Depression'; riskClass = 'risk-severe'; recommendations = ['Immediate professional help is recommended', 'Contact our crisis helpline if needed', 'Book an urgent appointment with a counselor']; }
-                } else { if (totalScore <= 4) { riskLevel = 'Minimal Anxiety'; riskClass = 'risk-minimal'; recommendations = ['Continue with healthy coping strategies', 'Practice relaxation techniques']; } else if (totalScore <= 9) { riskLevel = 'Mild Anxiety'; riskClass = 'risk-mild'; recommendations = ['Learn anxiety management techniques from our resources', 'Practice breathing exercises regularly', 'Consider counseling support']; } else if (totalScore <= 14) { riskLevel = 'Moderate Anxiety'; riskClass = 'risk-moderate'; recommendations = ['Professional counseling is recommended', 'Practice CBT techniques for anxiety', 'Use our mindfulness resources']; } else { riskLevel = 'Severe Anxiety'; riskClass = 'risk-severe'; recommendations = ['Immediate professional help is needed', 'Book an urgent counseling appointment', 'Contact crisis support if overwhelmed']; } }
+                const totalScore = assessmentAnswers.reduce((sum, answer) => sum + (answer || 0), 0); 
+                const { maxScore, riskLevel, riskClass, recommendations } = (currentAssessment === 'phq9') 
+                    ? getPhq9Results(totalScore) 
+                    : getGad7Results(totalScore);
                 displayResults(totalScore, maxScore, riskLevel, riskClass, recommendations);
             }
+            function getPhq9Results(score) {
+                let riskLevel, riskClass, recommendations;
+                if (score <= 4) { riskLevel = 'Minimal Depression'; riskClass = 'risk-minimal'; recommendations = ['Continue with healthy lifestyle habits', 'Stay connected with friends and family']; } 
+                else if (score <= 9) { riskLevel = 'Mild Depression'; riskClass = 'risk-mild'; recommendations = ['Practice stress management techniques', 'Monitor your mood regularly', 'Consider CBT exercises from our Resource Library']; } 
+                else if (score <= 14) { riskLevel = 'Moderate Depression'; riskClass = 'risk-moderate'; recommendations = ['Strongly recommend professional counseling', 'Use our AI chat support for daily guidance', 'Practice mindfulness and relaxation techniques']; } 
+                else { riskLevel = 'Severe Depression'; riskClass = 'risk-severe'; recommendations = ['Immediate professional help is recommended', 'Contact our crisis helpline if needed', 'Book an urgent appointment with a counselor']; }
+                return { maxScore: 27, riskLevel, riskClass, recommendations };
+            }
+            function getGad7Results(score) {
+                let riskLevel, riskClass, recommendations;
+                if (score <= 4) { riskLevel = 'Minimal Anxiety'; riskClass = 'risk-minimal'; recommendations = ['Continue with healthy coping strategies', 'Practice relaxation techniques']; } 
+                else if (score <= 9) { riskLevel = 'Mild Anxiety'; riskClass = 'risk-mild'; recommendations = ['Learn anxiety management techniques from our resources', 'Practice breathing exercises regularly', 'Consider counseling support']; } 
+                else if (score <= 14) { riskLevel = 'Moderate Anxiety'; riskClass = 'risk-moderate'; recommendations = ['Professional counseling is recommended', 'Practice CBT techniques for anxiety', 'Use our mindfulness resources']; } 
+                else { riskLevel = 'Severe Anxiety'; riskClass = 'risk-severe'; recommendations = ['Immediate professional help is needed', 'Book an urgent counseling appointment', 'Contact crisis support if overwhelmed']; }
+                return { maxScore: 21, riskLevel, riskClass, recommendations };
+            }
             function displayResults(score, maxScore, riskLevel, riskClass, recommendations) {
-                document.getElementById('resultTitle').textContent = `${currentAssessment.toUpperCase()} Results`; document.getElementById('scoreNumber').textContent = score; document.getElementById('scoreTotal').textContent = ` / ${maxScore}`;
-                const riskEl = document.getElementById('riskLevel'); riskEl.textContent = riskLevel; riskEl.className = `risk-level ${riskClass}`;
-                const recommendationsList = document.getElementById('recommendationsList'); recommendationsList.innerHTML = ''; recommendations.forEach(rec => { const item = document.createElement('div'); item.className = 'recommendation-item'; item.textContent = rec; recommendationsList.appendChild(item); });
+                document.getElementById('resultTitle').textContent = `${currentAssessment.toUpperCase()} Results`; 
+                document.getElementById('scoreNumber').textContent = score; 
+                document.getElementById('scoreTotal').textContent = ` / ${maxScore}`;
+                const riskEl = document.getElementById('riskLevel'); 
+                riskEl.textContent = riskLevel; riskEl.className = `risk-level ${riskClass}`;
+                const recommendationsList = document.getElementById('recommendationsList'); 
+                recommendationsList.innerHTML = recommendations.map(rec => `<div class="recommendation-item">${rec}</div>`).join('');
                 showAssessmentStep('assessmentResults');
             }
             function showAssessmentStep(stepId) { document.querySelectorAll('.assessment-step').forEach(s => s.classList.remove('active')); document.getElementById(stepId).classList.add('active'); }
             function resetAssessment() { showAssessmentStep('assessmentSelection'); }
-            function generateResources() { const container = document.querySelector('#resourcesScreen .resources-categories'); if (!container) return; container.innerHTML = appData.resources.map(cat => `<div class="resource-category"><h3>${cat.category}</h3><div class="resource-grid">${cat.items.map(item => `<div class="resource-item"><h4>${item.title}</h4><p>${item.description}</p><span class="resource-type">${item.type}</span></div>`).join('')}</div></div>`).join(''); }
-            function generateCounselors() { const container = document.getElementById('counselorList'); if (!container) return; container.innerHTML = appData.counselors.map(c => `<div class="counselor-card"><h4>${c.name}</h4><p>${c.specialization}</p><button class="btn btn-primary select-counselor" data-id="${c.id}">Select</button></div>`).join(''); document.querySelectorAll('.select-counselor').forEach(btn => btn.addEventListener('click', () => { selectedCounselor = appData.counselors.find(c => c.id === btn.dataset.id); nextBookingStep(); })); }
-            
-            // BUG FIX: Added call to updateBookingNavigation at the end of setup.
-            function setupBooking() {
-                document.getElementById('nextStep')?.addEventListener('click', nextBookingStep);
-                document.getElementById('prevStep')?.addEventListener('click', prevBookingStep);
-                document.getElementById('confirmBooking')?.addEventListener('click', confirmBooking);
-                document.getElementById('prevMonth')?.addEventListener('click', () => navigateMonth(-1));
-                document.getElementById('nextMonth')?.addEventListener('click', () => navigateMonth(1));
-                document.querySelectorAll('input[name="appointmentType"]').forEach(radio => radio.addEventListener('change', updateBookingNavigation));
-                updateBookingNavigation();
+
+            // --- RESOURCES FUNCTION --- //
+            function generateResources() { 
+                const container = document.querySelector('#resourcesScreen .resources-categories'); 
+                if (!container) return; 
+                container.innerHTML = appData.resources.map(cat => `<div class="resource-category"><h3>${cat.category}</h3><div class="resource-grid">${cat.items.map(item => `<div class="resource-item"><h4>${item.title}</h4><p>${item.description}</p><span class="resource-type">${item.type}</span></div>`).join('')}</div></div>`).join(''); 
             }
 
-            // BUG FIX: Rewrote calendar generation to disable past dates.
+            // --- BOOKING FUNCTIONS (REWORKED) --- //
+            function setupBooking() {
+                document.getElementById('prevStep')?.addEventListener('click', prevBookingStep);
+                document.getElementById('confirmBookingBtn')?.addEventListener('click', confirmBooking);
+                document.getElementById('prevMonth')?.addEventListener('click', () => navigateMonth(-1));
+                document.getElementById('nextMonth')?.addEventListener('click', () => navigateMonth(1));
+                document.querySelectorAll('input[name="appointmentType"]').forEach(radio => radio.addEventListener('change', updateConfirmationSummary));
+            }
+            function generateCounselors() {
+                const container = document.getElementById('counselorList');
+                if (!container) return;
+                container.innerHTML = appData.counselors.map(c => `
+                    <div class="counselor-card" data-id="${c.id}">
+                        <h4>${c.name}</h4>
+                        <p>${c.specialization}</p>
+                    </div>`).join('');
+
+                document.querySelectorAll('.counselor-card').forEach(card => {
+                    card.addEventListener('click', () => {
+                        document.querySelectorAll('.counselor-card.selected').forEach(c => c.classList.remove('selected'));
+                        card.classList.add('selected');
+                        selectedCounselor = appData.counselors.find(c => c.id === card.dataset.id);
+                        updateConfirmationSummary();
+                        nextBookingStep();
+                    });
+                });
+            }
             function generateCalendar() {
                 const calendarGrid = document.getElementById('calendarGrid'); if (!calendarGrid) return;
                 const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
                 document.getElementById('currentMonth').textContent = `${monthNames[currentMonth]} ${currentYear}`;
                 calendarGrid.innerHTML = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map(d => `<div style="font-weight: 600; font-size: 0.8rem; color: var(--text-color-secondary);">${d}</div>`).join('');
-                
                 const firstDay = new Date(currentYear, currentMonth, 1).getDay();
                 const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
-                const today = new Date();
-                today.setHours(0, 0, 0, 0); // Normalize today's date
-
-                // Disable previous month button if showing current month
+                const today = new Date(); today.setHours(0, 0, 0, 0); 
                 document.getElementById('prevMonth').disabled = (currentYear < today.getFullYear() || (currentYear === today.getFullYear() && currentMonth <= today.getMonth()));
-
-                for (let i = 0; i < firstDay; i++) {
-                    calendarGrid.insertAdjacentHTML('beforeend', '<div></div>');
-                }
-
+                for (let i = 0; i < firstDay; i++) calendarGrid.insertAdjacentHTML('beforeend', '<div></div>');
                 for (let day = 1; day <= daysInMonth; day++) {
                     const dayDiv = document.createElement('div');
                     const currentDate = new Date(currentYear, currentMonth, day);
-                    dayDiv.textContent = day;
-                    dayDiv.classList.add('calendar-day');
-
+                    dayDiv.textContent = day; dayDiv.classList.add('calendar-day');
                     if (currentDate < today) {
                         dayDiv.classList.add('disabled');
                     } else {
                         dayDiv.classList.add('available');
                         dayDiv.onclick = () => selectDate(day, dayDiv);
                     }
+                    if (selectedDate && day === selectedDate.getDate() && currentMonth === selectedDate.getMonth() && currentYear === selectedDate.getFullYear()) {
+                        dayDiv.classList.add('selected');
+                    }
                     calendarGrid.appendChild(dayDiv);
                 }
             }
-
-            // BUG FIX: Simplified month navigation.
             function navigateMonth(dir) {
                 currentMonth += dir;
-                if (currentMonth < 0) {
-                    currentMonth = 11;
-                    currentYear--;
-                }
-                if (currentMonth > 11) {
-                    currentMonth = 0;
-                    currentYear++;
-                }
+                if (currentMonth < 0) { currentMonth = 11; currentYear--; }
+                if (currentMonth > 11) { currentMonth = 0; currentYear++; }
                 generateCalendar();
             }
-
-            function selectDate(day, el) { document.querySelectorAll('.calendar-day.selected').forEach(d => d.classList.remove('selected')); el.classList.add('selected'); selectedDate = new Date(currentYear, currentMonth, day); generateTimeSlots(); updateBookingNavigation(); }
-            function generateTimeSlots() { const container = document.getElementById('timeSlots'); container.innerHTML = ['09:00', '10:00', '11:00', '14:00', '15:00'].map(time => `<div class="time-slot">${time}</div>`).join(''); document.querySelectorAll('.time-slot').forEach(slot => { slot.addEventListener('click', () => { document.querySelectorAll('.time-slot.selected').forEach(s => s.classList.remove('selected')); slot.classList.add('selected'); selectedTime = slot.textContent; updateBookingNavigation(); }); }); }
-            function nextBookingStep() { const steps = ['selectCounselor', 'selectDateTime', 'selectType', 'confirmation']; if(bookingStep >= steps.length - 1) return; document.getElementById(steps[bookingStep]).classList.remove('active'); bookingStep++; document.getElementById(steps[bookingStep]).classList.add('active'); if (bookingStep === 3) updateConfirmationSummary(); updateBookingNavigation(); }
-            function prevBookingStep() { const steps = ['selectCounselor', 'selectDateTime', 'selectType', 'confirmation']; if(bookingStep <= 0) return; document.getElementById(steps[bookingStep]).classList.remove('active'); bookingStep--; document.getElementById(steps[bookingStep]).classList.add('active'); updateBookingNavigation(); }
-            function updateBookingNavigation() { document.getElementById('prevStep').disabled = bookingStep === 0; let canProceed = false; if (bookingStep === 0) canProceed = !!selectedCounselor; else if (bookingStep === 1) canProceed = !!selectedDate && !!selectedTime; else if (bookingStep === 2) canProceed = !!document.querySelector('input[name="appointmentType"]:checked'); document.getElementById('nextStep').style.display = bookingStep === 3 ? 'none' : 'inline-flex'; document.getElementById('nextStep').disabled = !canProceed; }
-            
-            // BUG FIX: Rewrote summary function to be safer and have better formatting.
+            function selectDate(day, el) { 
+                document.querySelectorAll('.calendar-day.selected').forEach(d => d.classList.remove('selected')); 
+                el.classList.add('selected'); 
+                selectedDate = new Date(currentYear, currentMonth, day); 
+                generateTimeSlots(); 
+                updateConfirmationSummary(); 
+            }
+            function generateTimeSlots() { 
+                const container = document.getElementById('timeSlots'); 
+                container.innerHTML = ['09:00', '10:00', '11:00', '14:00', '15:00'].map(time => `<div class="time-slot">${time}</div>`).join(''); 
+                document.querySelectorAll('.time-slot').forEach(slot => { 
+                    slot.addEventListener('click', () => { 
+                        document.querySelectorAll('.time-slot.selected').forEach(s => s.classList.remove('selected')); 
+                        slot.classList.add('selected'); 
+                        selectedTime = slot.textContent; 
+                        updateConfirmationSummary();
+                        nextBookingStep();
+                    }); 
+                }); 
+            }
+            function nextBookingStep() { 
+                const steps = ['selectCounselor', 'selectDateTime', 'selectType']; 
+                if(bookingStep >= steps.length - 1) return; 
+                document.getElementById(steps[bookingStep]).classList.remove('active'); 
+                bookingStep++; 
+                document.getElementById(steps[bookingStep]).classList.add('active'); 
+                updateBookingNavigation(); 
+            }
+            function prevBookingStep() { 
+                const steps = ['selectCounselor', 'selectDateTime', 'selectType']; 
+                if(bookingStep <= 0) return; 
+                document.getElementById(steps[bookingStep]).classList.remove('active'); 
+                bookingStep--; 
+                document.getElementById(steps[bookingStep]).classList.add('active'); 
+                updateBookingNavigation(); 
+            }
+            function updateBookingNavigation() { 
+                document.getElementById('prevStep').disabled = bookingStep === 0;
+            }
             function updateConfirmationSummary() {
-                if (selectedCounselor && selectedCounselor.name) {
-                    document.getElementById('confirmedCounselor').textContent = selectedCounselor.name;
-                }
-                if (selectedDate) {
-                    document.getElementById('confirmedDate').textContent = selectedDate.toLocaleDateString('en-GB', {
-                        weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
-                    });
-                }
-                if (selectedTime) {
-                    document.getElementById('confirmedTime').textContent = selectedTime;
-                }
+                const summary = document.getElementById('appointmentSummary');
+                if (selectedCounselor) summary.classList.remove('hidden');
+
+                document.getElementById('confirmedCounselor').textContent = selectedCounselor ? selectedCounselor.name : '...';
+                document.getElementById('confirmedDate').textContent = selectedDate ? selectedDate.toLocaleDateString('en-GB', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }) : '...';
+                document.getElementById('confirmedTime').textContent = selectedTime || '...';
                 const selectedTypeInput = document.querySelector('input[name="appointmentType"]:checked');
-                if (selectedTypeInput) {
-                    const selectedTypeLabel = selectedTypeInput.closest('.appointment-type');
-                    const typeText = selectedTypeLabel.querySelector('h4').textContent;
-                    document.getElementById('confirmedType').textContent = typeText;
-                }
+                document.getElementById('confirmedType').textContent = selectedTypeInput ? selectedTypeInput.closest('.appointment-type').querySelector('h4').textContent : '...';
+
+                updateBookingActionState();
             }
-            function confirmBooking() { document.getElementById('successModal').classList.remove('hidden'); }
-            function setupModal() { document.getElementById('closeModal')?.addEventListener('click', () => { document.getElementById('successModal').classList.add('hidden'); resetBooking(); showScreen('dashboardScreen'); }); }
-            function resetBooking() { bookingStep = 0; selectedCounselor = null; selectedDate = null; selectedTime = null; document.querySelectorAll('.booking-step').forEach((s, index) => { if (index === 0) s.classList.add('active'); else s.classList.remove('active'); }); const radios = document.querySelectorAll('input[name="appointmentType"]'); if (radios) radios.forEach(radio => radio.checked = false); updateBookingNavigation(); }
+            function updateBookingActionState() {
+                const confirmBtn = document.getElementById('confirmBookingBtn');
+                const selectedType = document.querySelector('input[name="appointmentType"]:checked');
+                confirmBtn.disabled = !(selectedCounselor && selectedDate && selectedTime && selectedType);
+            }
+            function confirmBooking() { 
+                document.getElementById('successModal').classList.remove('hidden'); 
+            }
+            function setupModal() { 
+                document.getElementById('closeModal')?.addEventListener('click', () => { 
+                    document.getElementById('successModal').classList.add('hidden'); 
+                    resetBooking(); 
+                    showScreen('dashboardScreen'); 
+                }); 
+            }
+            function resetBooking() { 
+                bookingStep = 0; 
+                selectedCounselor = null; 
+                selectedDate = null; 
+                selectedTime = null;
+                document.querySelectorAll('.booking-step').forEach((s, i) => s.classList.toggle('active', i === 0));
+                document.querySelectorAll('.counselor-card.selected').forEach(c => c.classList.remove('selected'));
+                document.querySelectorAll('input[name="appointmentType"]').forEach(r => r.checked = false);
+                document.getElementById('appointmentSummary').classList.add('hidden');
+                document.getElementById('confirmBookingBtn').disabled = true;
+                generateCalendar();
+                generateTimeSlots();
+                updateBookingNavigation();
+            }
+
+            // --- CHARTS --- //
             function initializeJourneyCharts(){
-                const generateFortyDayData = () => { const data = []; for(let i=0; i<40; i++) data.push(Math.floor(Math.random() * 15) + 3); return data; }
+                const generateFortyDayData = () => Array.from({length: 40}, () => Math.floor(Math.random() * 15) + 3);
                 const fortyDayLabels = Array.from({length: 40}, (_, i) => { const d = new Date(); d.setDate(d.getDate() - (39-i)); return `${d.getMonth()+1}/${d.getDate()}`; });
-                const weeklyLabels = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']; const weeklyAnxiety = Array.from({length: 7}, () => Math.floor(Math.random() * 18)); const weeklyDepression = Array.from({length: 7}, () => Math.floor(Math.random() * 22));
+                const chartOptions = { responsive: true, maintainAspectRatio: false };
                 const ctxFortyDay = document.getElementById('fortyDayChart')?.getContext('2d');
-                if(ctxFortyDay) { new Chart(ctxFortyDay, { type: 'line', data: { labels: fortyDayLabels, datasets: [{ label: 'Anxiety Score (GAD-7)', data: generateFortyDayData(), borderColor: 'rgba(99, 102, 241, 1)', backgroundColor: 'rgba(99, 102, 241, 0.2)', fill: true, tension: 0.4 }, { label: 'Depression Score (PHQ-9)', data: generateFortyDayData(), borderColor: 'rgba(236, 72, 153, 1)', backgroundColor: 'rgba(236, 72, 153, 0.2)', fill: true, tension: 0.4 }] }, options: { responsive: true, maintainAspectRatio: false } }); }
+                if(ctxFortyDay) { new Chart(ctxFortyDay, { type: 'line', data: { labels: fortyDayLabels, datasets: [{ label: 'Anxiety Score (GAD-7)', data: generateFortyDayData(), borderColor: 'rgba(99, 102, 241, 1)', backgroundColor: 'rgba(99, 102, 241, 0.2)', fill: true, tension: 0.4 }, { label: 'Depression Score (PHQ-9)', data: generateFortyDayData(), borderColor: 'rgba(236, 72, 153, 1)', backgroundColor: 'rgba(236, 72, 153, 0.2)', fill: true, tension: 0.4 }] }, options: chartOptions }); }
                 const ctxWeekly = document.getElementById('weeklyRecapChart')?.getContext('2d');
-                if(ctxWeekly){ new Chart(ctxWeekly, { type: 'bar', data: { labels: weeklyLabels, datasets: [{ label: 'Anxiety', data: weeklyAnxiety, backgroundColor: 'rgba(236, 72, 153, 0.7)', },{ label: 'Depression', data: weeklyDepression, backgroundColor: 'rgba(16, 185, 129, 0.7)', }] }, options: { responsive: true, maintainAspectRatio: false, scales: { y: { beginAtZero: true } } } }); }
+                if(ctxWeekly){ new Chart(ctxWeekly, { type: 'bar', data: { labels: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'], datasets: [{ label: 'Anxiety', data: Array.from({length: 7}, () => Math.floor(Math.random() * 18)), backgroundColor: 'rgba(236, 72, 153, 0.7)' },{ label: 'Depression', data: Array.from({length: 7}, () => Math.floor(Math.random() * 22)), backgroundColor: 'rgba(16, 185, 129, 0.7)' }] }, options: {...chartOptions, scales: { y: { beginAtZero: true } }} }); }
             }
             
+            // --- INITIALIZATION --- //
             function initializeApp() {
                 if (!checkAuth()) return;
 
-                setupLanguageSwitcher(); // Add this
+                setupLanguageSwitcher();
+                document.querySelectorAll('[data-screen]').forEach(el => el.addEventListener('click', (e) => { e.preventDefault(); showScreen(el.dataset.screen); }));
+                document.querySelectorAll('.back-btn').forEach(btn => btn.addEventListener('click', () => showScreen('dashboardScreen')));
                 
-                setupNavigation();
                 setupAssessment();
                 setupChat();
                 generateResources();
@@ -1049,8 +1138,7 @@
                 setupModal();
                 initializeJourneyCharts();
                 loadChatHistory();
-
-                updateUIText(); // And this
+                updateUIText(); 
 
                 const themeToggle = document.getElementById('themeToggle');
                 const themeIcon = document.getElementById('themeIcon');
@@ -1058,13 +1146,8 @@
                 const moonIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>`;
 
                 themeToggle.addEventListener('click', () => {
-                    if (document.body.getAttribute('data-theme') === 'dark') {
-                        document.body.removeAttribute('data-theme');
-                        themeIcon.innerHTML = moonIcon;
-                    } else {
-                        document.body.setAttribute('data-theme', 'dark');
-                        themeIcon.innerHTML = sunIcon;
-                    }
+                    const isDark = document.body.toggleAttribute('data-theme');
+                    themeIcon.innerHTML = isDark ? sunIcon : moonIcon;
                 });
 
                 document.getElementById('logoutBtn').addEventListener('click', handleLogout);
@@ -1073,16 +1156,11 @@
             initializeApp();
         });
 
-       
       if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
           navigator.serviceWorker.register('/service-worker.js')
-            .then(registration => {
-              console.log('Service Worker registered successfully:', registration);
-            })
-            .catch(error => {
-              console.log('Service Worker registration failed:', error);
-            });
+            .then(registration => console.log('Service Worker registered:', registration))
+            .catch(error => console.log('Service Worker registration failed:', error));
         });
       }
     </script>
